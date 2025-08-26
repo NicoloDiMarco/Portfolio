@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio - Contatti</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Font Awesome per icone migliori -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* TEMA SCURO */
+    body {
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    body.dark-mode { 
+      background-color: #121212; 
+      color: #f1f1f1; 
+    }
+    
+    body.dark-mode .navbar {
+      background-color: #1a1a1a !important;
+    }
+    
+    body.dark-mode .navbar-brand,
+    body.dark-mode .nav-link {
+      color: #f1f1f1 !important;
+    }
+    
+    body.dark-mode .nav-link:hover {
+      color: #2575fc !important;
+    }
+    
+    
+    body.dark-mode .card .card-title,
+    body.dark-mode .card .card-text {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .text-muted  {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode footer {
+      background-color: #1a1a1a !important;
+    }
+    
+    body.dark-mode .card {
+      background-color: #2a2a2a !important;
+      border-color: #404040 !important;
+      color: #f1f1f1 !important;
+    }
+    
+    body.dark-mode .form-control {
+      background-color: #333 !important;
+      border-color: #555 !important;
+      color: #f1f1f1 !important;
+    }
+    
+    body.dark-mode .form-control:focus {
+      background-color: #404040 !important;
+      border-color: #2575fc !important;
+      color: #f1f1f1 !important;
+      box-shadow: 0 0 0 0.2rem rgba(37, 117, 252, 0.25) !important;
+    }
+    
+    body.dark-mode .form-label {
+      color: #f1f1f1 !important;
+    }
+    
+    /* MODALITÀ DALTONICO */
+    body.grayscale * { 
+      filter: grayscale(100%) !important; 
+    }
+    
+    body.grayscale {
+      filter: none !important;
+    }
+
+    /* SWITCH TEMA (sole/luna) */
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .theme-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .theme-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    input:checked + .theme-slider {
+      background-color: #2196F3;
+    }
+    
+    input:checked + .theme-slider:before {
+      transform: translateX(30px);
+    }
+    
+    /* Icone sole/luna */
+    .theme-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+    
+    .sun-icon {
+      left: 8px;
+      color: #ffa500;
+    }
+    
+    .moon-icon {
+      right: 8px;
+      color: #4a90e2;
+    }
+    
+    /* Sole/luna visibilità */
+    body.dark-mode .sun-icon {
+      opacity: 0.3;
+    }
+    
+    body.dark-mode .moon-icon {
+      opacity: 1;
+    }
+    
+    body:not(.dark-mode) .sun-icon {
+      opacity: 1;
+    }
+    
+    body:not(.dark-mode) .moon-icon {
+      opacity: 0.3;
+    }
+
+    /* BOTTONE DALTONICO */
+    .daltonic-btn {
+      background: transparent;
+      border: 1px solid #6c757d;
+      color: #6c757d;
+      border-radius: 5px;
+      padding: 5px 10px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .daltonic-btn:hover {
+      background: #6c757d;
+      color: white;
+    }
+    
+    .daltonic-btn.active {
+      background: #2575fc;
+      color: white;
+      border-color: #2575fc;
+    }
+    
+    .daltonic-btn .icon-slash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s;
+      font-size: 20px;
+      color: red;
+    }
+    
+    .daltonic-btn.active .icon-slash {
+      transform: translate(-50%, -50%) scale(1) rotate(-15deg);
+    }
+
+    /* SELETTORE LINGUA CON DROPDOWN PERSONALIZZATO */
+    .language-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .language-button {
+      background: transparent;
+      border: 1px solid #6c757d;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+      min-width: 80px;
+      justify-content: center;
+    }
+    
+    .language-button:hover {
+      background: #6c757d;
+      color: white;
+    }
+    
+    body.dark-mode .language-button {
+      background: #2a2a2a;
+      color: #f1f1f1;
+      border-color: #555;
+    }
+    
+    body.dark-mode .language-button:hover {
+      background: #444;
+    }
+    
+    .language-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+      min-width: 120px;
+      margin-top: 2px;
+    }
+    
+    body.dark-mode .language-menu {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #f1f1f1;
+    }
+    
+    body.dark-mode .language-option {
+      color: #f1f1f1;
+    }
+    
+    .language-menu.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .language-option {
+      padding: 10px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      transition: background-color 0.2s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    
+    .language-option:hover {
+      background: #f5f5f5;
+    }
+    
+    body.dark-mode .language-option:hover {
+      background: #444;
+    }
+    
+    .language-option.active {
+      background: #2575fc;
+      color: white;
+    }
+
+    .IconFlag{
+      width: 16px;
+      height: 16px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SEZIONE CONTATTI */
+    .contact-hero {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      padding: 120px 0 80px;
+      text-align: center;
+    }
+    
+    .contact-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    /* SOCIAL ICONS */
+    .social-section {
+      padding: 80px 0;
+    }
+    
+    .social-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      margin: 0 auto 1rem;
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      color: white;
+    }
+    
+    .social-linkedin { background: linear-gradient(45deg, #0077b5, #00a0dc); }
+    .social-github { background: linear-gradient(45deg, #333, #666); }
+    .social-instagram { background: linear-gradient(45deg, #e4405f, #f093fb); }
+    .social-facebook { background: linear-gradient(45deg, #1877f2, #0d65d9); }
+    .social-telegram { background: linear-gradient(45deg, #0077b5, #00a0dc); }
+    .social-email { background: linear-gradient(45deg, #ea4335, #fbbc05); }
+
+    /* FORM CONTATTI */
+    .contact-form {
+      padding: 80px 0;
+      background: #f8f9fa;
+    }
+    
+    body.dark-mode .contact-form {
+      background: #1a1a1a;
+    }
+    
+    .form-floating {
+      margin-bottom: 1.5rem;
+    }
+    
+    .btn-send {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-send:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(37, 117, 252, 0.3);
+    }
+
+    /* ANIMAZIONI SUCCESS/ERROR */
+    .alert-floating {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      z-index: 1050;
+      min-width: 300px;
+      transform: translateX(-200px);
+      transition: transform 0.3s ease;
+    }
+    
+    .alert-floating.show {
+      transform: translateX(0);
+    }
+
+    /* Nasconde elementi Google Translate */
+    #google_translate_element {
+      display: none;
+    }
+    
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+    
+    body {
+      top: 0 !important;
+    }
+    
+    .goog-te-combo {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .contact-hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .navbar .d-flex {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      
+      .language-menu {
+        right: auto;
+        left: 0;
+      }
+      
+      .social-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+      
+      .alert-floating {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-globe"></i> Portfolio
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">
+              <span class="translate-chi-sono">Chi sono</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projects.html">
+              <span class="translate-progetti">Progetti</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">
+              <span class="translate-contatti">Contatti</span>
+            </a>
+          </li>
+        </ul>
+        <div class="ms-3 d-flex gap-3 align-items-center">
+
+          <!-- Switch Tema Chiaro/Scuro -->
+          <label class="theme-switch" title="Tema chiaro/scuro">
+            <input type="checkbox" id="theme-toggle">
+            <span class="theme-slider">
+              <i class="fas fa-sun theme-icon sun-icon"></i>
+              <i class="fas fa-moon theme-icon moon-icon"></i>
+            </span>
+          </label>
+
+          <!-- Bottone Daltonico -->
+          <button type="button" id="daltonic-btn" class="daltonic-btn" aria-label="Modalità daltonico" title="Modalità daltonico">
+            <i class="fas fa-eye"></i>
+            <i class="fas fa-slash icon-slash"></i>
+          </button>
+
+          <!-- Selettore Lingua con Dropdown -->
+          <div class="language-dropdown">
+            <button class="language-button" id="language-button" aria-label="Seleziona lingua">
+              <span id="current-flag">🇮🇹</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+            </button>
+            <div class="language-menu" id="language-menu">
+              <button class="language-option active" data-lang="it">
+                <span><img src="Images/Flags/it.svg" class="IconFlag"></span> Italiano
+              </button>
+              <button class="language-option" data-lang="en">
+                <span><img src="Images/Flags/gb.svg" class="IconFlag"></span> English
+              </button>
+              <button class="language-option" data-lang="es">
+                <span><img src="Images/Flags/es.svg" class="IconFlag"></span> Español
+              </button>
+              <button class="language-option" data-lang="de">
+                <span><span><img src="Images/Flags/de.svg" class="IconFlag"></span></span> Deutsch
+              </button>
+              <button class="language-option" data-lang="ja">
+                <span><span><img src="Images/Flags/jp.svg" class="IconFlag"></span></span> 日本語
+              </button>
+              <button class="language-option" data-lang="nl">
+                <span><span><img src="Images/Flags/nl.svg" class="IconFlag"></span></span> Nederlands
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Hero Section -->
+  <header class="contact-hero">
+    <div class="container">
+      <h1 data-aos="fade-up">
+        <span class="translate-titolo-contatti">Contattami</span>
+      </h1>
+      <p data-aos="fade-up" data-aos-delay="200">
+        <span class="translate-sottotitolo-contatti">Sono sempre aperto a nuove opportunità e collaborazioni</span>
+      </p>
+    </div>
+  </header>
+
+  <!-- Social Section -->
+  <section class="social-section">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-12 mb-5">
+          <h2 data-aos="fade-up">
+            <span class="translate-seguimi">Seguimi sui social</span>
+          </h2>
+          <p data-aos="fade-up" data-aos-delay="200">
+            <span class="translate-desc-social">Connettiti con me su queste piattaforme</span>
+          </p>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-6 col-md-4 col-lg-2 mb-4" data-aos="fade-up" data-aos-delay="100">
+          <a href="https://www.linkedin.com/in/nicol%C3%B2-di-marco-2436b5101/" target="_blank" class="social-icon social-linkedin">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <h5>LinkedIn</h5>
+          <p class="text-muted"><span class="translate-linkedin-desc">Profilo professionale</span></p>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4" data-aos="fade-up" data-aos-delay="200">
+          <a href="https://github.com/NickX95ct" target="_blank" class="social-icon social-github">
+            <i class="fab fa-github"></i>
+          </a>
+          <h5>GitHub</h5>
+          <p class="text-muted"><span class="translate-github-desc">I miei progetti</span></p>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4" data-aos="fade-up" data-aos-delay="300">
+          <a href="https://www.instagram.com/bluenick95/?hl=it" target="_blank" class="social-icon social-instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <h5>Instagram</h5>
+          <p class="text-muted"><span class="translate-instagram-desc">Vita quotidiana</span></p>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <a href="https://www.facebook.com/nicolo.dimarco.376" target="_blank" class="social-icon social-facebook">
+                <i class="fab fa-facebook"></i>
+            </a>              
+            <h5>Facebook</h5>
+            <p class="text-muted"><span class="translate-facebook-desc">Pensieri e news</span></p>
+        </div>
+        
+        <div class="col-6 col-md-4 col-lg-2 mb-4" data-aos="fade-up" data-aos-delay="500">
+          <a href="https://t.me/NikoCT95" target="_blank" class="social-icon social-telegram">
+            <i class="fab fa-telegram"></i>
+          </a>
+          <h5>Telegram</h5>
+          <p class="text-muted"><span class="translate-telegram-desc">Messaggi diretti</span></p>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-4" data-aos="fade-up" data-aos-delay="600">
+          <a href="mailto:nicolo.dimarco95ct@gmail.com" class="social-icon social-email">
+            <i class="fas fa-envelope"></i>
+          </a>
+          <h5>Email</h5>
+          <p class="text-muted"><span class="translate-email-desc">Scrivimi</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="contact-form">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card shadow-lg border-0" data-aos="fade-up">
+            <div class="card-body p-5">
+              <div class="text-center mb-4">
+                <h2><span class="translate-invia-messaggio">Inviami un messaggio</span></h2>
+                <p class="text-muted"><span class="translate-desc-form">Compila il form sottostante e ti risponderò al più presto</span></p>
+              </div>
+              
+              <form id="contact-form" action="mailto:nicolo.dimarco95ct@gmail.com">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="nome" name="nome" placeholder=" " required>
+                  <label for="nome"><span class="translate-nome">Nome</span> *</label>
+                  <div class="invalid-feedback">
+                    <span class="translate-nome-required">Il nome è obbligatorio</span>
+                  </div>
+                </div>
+
+                <div class="form-floating">
+                  <input type="email" class="form-control" id="email" name="email" placeholder=" " required>
+                  <label for="email">Email *</label>
+                  <div class="invalid-feedback">
+                    <span class="translate-email-required">Inserisci una email valida</span>
+                  </div>
+                </div>
+
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="oggetto" name="oggetto" placeholder=" " required>
+                  <label for="oggetto"><span class="translate-oggetto">Oggetto</span> *</label>
+                  <div class="invalid-feedback">
+                    <span class="translate-oggetto-required">L'oggetto è obbligatorio</span>
+                  </div>
+                </div>
+
+                <div class="form-floating">
+                  <textarea class="form-control" id="messaggio" name="messaggio" placeholder=" " style="height: 150px" required></textarea>
+                  <label for="messaggio"><span class="translate-messaggio">Messaggio</span> *</label>
+                  <div class="invalid-feedback">
+                    <span class="translate-messaggio-required">Il messaggio è obbligatorio</span>
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary btn-send">
+                    <i class="fas fa-paper-plane me-2"></i>
+                    <span class="translate-invia">Invia Messaggio</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alert per feedback -->
+  <div id="alert-success" class="alert alert-success alert-floating alert-dismissible fade" role="alert">
+    <i class="fas fa-check-circle me-2"></i>
+    <span class="translate-messaggio-inviato">Messaggio inviato con successo! Ti risponderò al più presto.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <div id="alert-error" class="alert alert-danger alert-floating alert-dismissible fade" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    <span class="translate-errore-invio">Errore nell'invio del messaggio. Riprova o contattami direttamente.</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-3 bg-dark text-light">
+    <div id="google_translate_element"></div>
+    <p class="mb-0">© 2025 Nicolò Di Marco - <span class="translate-diritti">Tutti i diritti riservati</span></p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <!-- Script principale -->
+  <script>
+    // Traduzioni estese per tutte le lingue
+    const translations = {
+      it: {
+        'chi-sono': 'Chi sono',
+        'progetti': 'Progetti',
+        'contatti': 'Contatti',
+        'titolo-contatti': 'Contattami',
+        'sottotitolo-contatti': 'Sono sempre aperto a nuove opportunità e collaborazioni',
+        'seguimi': 'Seguimi sui social',
+        'desc-social': 'Connettiti con me su queste piattaforme',
+        'linkedin-desc': 'Profilo professionale',
+        'github-desc': 'I miei progetti',
+        'instagram-desc': 'Vita quotidiana',
+        'twitter-desc': 'Pensieri e news',
+        'telegram-desc': 'Messaggi diretti',
+        'email-desc': 'Scrivimi',
+        'invia-messaggio': 'Inviami un messaggio',
+        'desc-form': 'Compila il form sottostante e ti risponderò al più presto',
+        'nome': 'Nome',
+        'oggetto': 'Oggetto',
+        'messaggio': 'Messaggio',
+        'invia': 'Invia Messaggio',
+        'nome-required': 'Il nome è obbligatorio',
+        'email-required': 'Inserisci una email valida',
+        'oggetto-required': 'L\'oggetto è obbligatorio',
+        'messaggio-required': 'Il messaggio è obbligatorio',
+        'messaggio-inviato': 'Messaggio inviato con successo! Ti risponderò al più presto.',
+        'errore-invio': 'Errore nell\'invio del messaggio. Riprova o contattami direttamente.',
+        'diritti': 'Tutti i diritti riservati'
+      },
+      en: {
+        'chi-sono': 'About',
+        'progetti': 'Projects',
+        'contatti': 'Contact',
+        'titolo-contatti': 'Contact Me',
+        'sottotitolo-contatti': 'I\'m always open to new opportunities and collaborations',
+        'seguimi': 'Follow me on social',
+        'desc-social': 'Connect with me on these platforms',
+        'linkedin-desc': 'Professional profile',
+        'github-desc': 'My projects',
+        'instagram-desc': 'Daily life',
+        'twitter-desc': 'Thoughts and news',
+        'telegram-desc': 'Direct messages',
+        'email-desc': 'Write me',
+        'invia-messaggio': 'Send me a message',
+        'desc-form': 'Fill out the form below and I\'ll get back to you soon',
+        'nome': 'Name',
+        'oggetto': 'Subject',
+        'messaggio': 'Message',
+        'invia': 'Send Message',
+        'nome-required': 'Name is required',
+        'email-required': 'Please enter a valid email',
+        'oggetto-required': 'Subject is required',
+        'messaggio-required': 'Message is required',
+        'messaggio-inviato': 'Message sent successfully! I\'ll get back to you soon.',
+        'errore-invio': 'Error sending message. Please try again or contact me directly.',
+        'diritti': 'All rights reserved'
+      },
+      es: {
+        'chi-sono': 'Sobre mí',
+        'progetti': 'Proyectos',
+        'contatti': 'Contacto',
+        'titolo-contatti': 'Contáctame',
+        'sottotitolo-contatti': 'Siempre estoy abierto a nuevas oportunidades y colaboraciones',
+        'seguimi': 'Sígueme en redes',
+        'desc-social': 'Conéctate conmigo en estas plataformas',
+        'linkedin-desc': 'Perfil profesional',
+        'github-desc': 'Mis proyectos',
+        'instagram-desc': 'Vida diaria',
+        'twitter-desc': 'Pensamientos y noticias',
+        'telegram-desc': 'Mensajes directos',
+        'email-desc': 'Escríbeme',
+        'invia-messaggio': 'Envíame un mensaje',
+        'desc-form': 'Completa el formulario y te responderé pronto',
+        'nome': 'Nombre',
+        'oggetto': 'Asunto',
+        'messaggio': 'Mensaje',
+        'invia': 'Enviar Mensaje',
+        'nome-required': 'El nombre es obligatorio',
+        'email-required': 'Introduce un email válido',
+        'oggetto-required': 'El asunto es obligatorio',
+        'messaggio-required': 'El mensaje es obligatorio',
+        'messaggio-inviato': '¡Mensaje enviado con éxito! Te responderé pronto.',
+        'errore-invio': 'Error al enviar el mensaje. Inténtalo de nuevo o contáctame directamente.',
+        'diritti': 'Todos los derechos reservados'
+      },
+      de: {
+        'chi-sono': 'Über mich',
+        'progetti': 'Projekte',
+        'contatti': 'Kontakt',
+        'titolo-contatti': 'Kontaktiere mich',
+        'sottotitolo-contatti': 'Ich bin immer offen für neue Möglichkeiten und Kooperationen',
+        'seguimi': 'Folge mir in sozialen Medien',
+        'desc-social': 'Verbinde dich mit mir auf diesen Plattformen',
+        'linkedin-desc': 'Berufliches Profil',
+        'github-desc': 'Meine Projekte',
+        'instagram-desc': 'Alltag',
+        'twitter-desc': 'Gedanken und News',
+        'telegram-desc': 'Direkte Nachrichten',
+        'email-desc': 'Schreib mir',
+        'invia-messaggio': 'Sende mir eine Nachricht',
+        'desc-form': 'Fülle das Formular aus und ich melde mich bald bei dir',
+        'nome': 'Name',
+        'oggetto': 'Betreff',
+        'messaggio': 'Nachricht',
+        'invia': 'Nachricht senden',
+        'nome-required': 'Name ist erforderlich',
+        'email-required': 'Bitte gib eine gültige E-Mail ein',
+        'oggetto-required': 'Betreff ist erforderlich',
+        'messaggio-required': 'Nachricht ist erforderlich',
+        'messaggio-inviato': 'Nachricht erfolgreich gesendet! Ich melde mich bald bei dir.',
+        'errore-invio': 'Fehler beim Senden der Nachricht. Bitte versuche es erneut oder kontaktiere mich direkt.',
+        'diritti': 'Alle Rechte vorbehalten'
+      },
+      ja: {
+        'chi-sono': 'プロフィール',
+        'progetti': 'プロジェクト',
+        'contatti': 'お問い合わせ',
+        'titolo-contatti': 'お問い合わせ',
+        'sottotitolo-contatti': '新しい機会やコラボレーションを常に歓迎しています',
+        'seguimi': 'ソーシャルメディアでフォロー',
+        'desc-social': 'これらのプラットフォームで繋がりましょう',
+        'linkedin-desc': 'プロフェッショナルプロフィール',
+        'github-desc': '私のプロジェクト',
+        'instagram-desc': '日常生活',
+        'twitter-desc': '思考とニュース',
+        'telegram-desc': 'ダイレクトメッセージ',
+        'email-desc': 'メールする',
+        'invia-messaggio': 'メッセージを送る',
+        'desc-form': '以下のフォームにご記入ください。すぐに返信いたします',
+        'nome': '名前',
+        'oggetto': '件名',
+        'messaggio': 'メッセージ',
+        'invia': 'メッセージを送信',
+        'nome-required': '名前は必須です',
+        'email-required': '有効なメールアドレスを入力してください',
+        'oggetto-required': '件名は必須です',
+        'messaggio-required': 'メッセージは必須です',
+        'messaggio-inviato': 'メッセージが正常に送信されました！すぐに返信いたします。',
+        'errore-invio': 'メッセージの送信中にエラーが発生しました。再試行するか、直接お問い合わせください。',
+        'diritti': '全著作権所有'
+      },
+      nl: {
+        'chi-sono': 'Over mij',
+        'progetti': 'Projecten',
+        'contatti': 'Contact',
+        'titolo-contatti': 'Neem contact op',
+        'sottotitolo-contatti': 'Ik sta altijd open voor nieuwe kansen en samenwerkingen',
+        'seguimi': 'Volg me op social media',
+        'desc-social': 'Verbind met me op deze platformen',
+        'linkedin-desc': 'Professioneel profiel',
+        'github-desc': 'Mijn projecten',
+        'instagram-desc': 'Dagelijks leven',
+        'twitter-desc': 'Gedachten en nieuws',
+        'telegram-desc': 'Directe berichten',
+        'email-desc': 'Schrijf me',
+        'invia-messaggio': 'Stuur me een bericht',
+        'desc-form': 'Vul het onderstaande formulier in en ik neem binnenkort contact op',
+        'nome': 'Naam',
+        'oggetto': 'Onderwerp',
+        'messaggio': 'Bericht',
+        'invia': 'Bericht verzenden',
+        'nome-required': 'Naam is verplicht',
+        'email-required': 'Voer een geldig e-mailadres in',
+        'oggetto-required': 'Onderwerp is verplicht',
+        'messaggio-required': 'Bericht is verplicht',
+        'messaggio-inviato': 'Bericht succesvol verzonden! Ik neem binnenkort contact op.',
+        'errore-invio': 'Fout bij het verzenden van het bericht. Probeer opnieuw of neem direct contact op.',
+        'diritti': 'Alle rechten voorbehouden'
+      }
+    };
+
+    // Mappa delle bandiere
+    const flags = {
+      it: '🇮🇹',
+      en: '🇬🇧',
+      es: '🇪🇸',
+      de: '🇩🇪',
+      ja: '🇯🇵',
+      nl: '🇳🇱'
+    };
+
+    // Inizializza EmailJS
+    emailjs.init("YOUR_PUBLIC_KEY"); // Sostituisci con la tua chiave pubblica EmailJS
+
+    // GESTIONE TEMA CHIARO/SCURO
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggle.checked = true;
+    }
+    
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // GESTIONE MODALITÀ DALTONICO
+    const daltonicBtn = document.getElementById('daltonic-btn');
+    const savedDaltonic = localStorage.getItem('daltonic');
+    
+    if (savedDaltonic === 'on') {
+      document.body.classList.add('grayscale');
+      daltonicBtn.classList.add('active');
+    }
+    
+    daltonicBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      document.body.classList.toggle('grayscale');
+      daltonicBtn.classList.toggle('active');
+      const isActive = document.body.classList.contains('grayscale');
+      localStorage.setItem('daltonic', isActive ? 'on' : 'off');
+    });
+
+    // GESTIONE LINGUA CON DROPDOWN
+    const languageButton = document.getElementById('language-button');
+    const languageMenu = document.getElementById('language-menu');
+    const currentFlag = document.getElementById('current-flag');
+    const languageOptions = document.querySelectorAll('.language-option');
+    
+    // Recupera la lingua salvata o usa italiano come default
+    const savedLang = localStorage.getItem('language') || 'it';
+    let currentLanguage = savedLang;
+    
+    function translatePage(lang) {
+      document.querySelectorAll('[class^="translate-"]').forEach(element => {
+        const key = element.className.replace('translate-', '');
+        if (translations[lang] && translations[lang][key]) {
+          element.textContent = translations[lang][key];
+        }
+      });
+      
+      // Aggiorna l'attributo lang dell'HTML
+      document.documentElement.lang = lang;
+      
+      // Aggiorna la bandiera nel bottone
+      currentFlag.textContent = flags[lang];
+      
+      // Aggiorna gli stati attivi nel menu
+      languageOptions.forEach(option => {
+        option.classList.toggle('active', option.dataset.lang === lang);
+      });
+      
+      // Salva la preferenza
+      localStorage.setItem('language', lang);
+      currentLanguage = lang;
+    }
+    
+    // Applica la lingua salvata all'avvio
+    translatePage(savedLang);
+    
+    // Toggle del menu lingua
+    languageButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      languageMenu.classList.toggle('show');
+    });
+    
+    // Gestione selezione lingua
+    languageOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedLang = option.dataset.lang;
+        translatePage(selectedLang);
+        languageMenu.classList.remove('show');
+      });
+    });
+    
+    // Chiudi menu quando si clicca fuori
+    document.addEventListener('click', (e) => {
+      if (!languageButton.contains(e.target) && !languageMenu.contains(e.target)) {
+        languageMenu.classList.remove('show');
+      }
+    });
+    
+    // Chiudi menu con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        languageMenu.classList.remove('show');
+      }
+    });
+
+    // GESTIONE FORM CONTATTI
+    const contactForm = document.getElementById('contact-form');
+    const successAlert = document.getElementById('alert-success');
+    const errorAlert = document.getElementById('alert-error');
+
+    function showAlert(alertElement, duration = 5000) {
+      alertElement.classList.add('show', 'show');
+      setTimeout(() => {
+        alertElement.classList.remove('show');
+      }, duration);
+    }
+
+    function validateForm() {
+      let isValid = true;
+      const inputs = contactForm.querySelectorAll('input[required], textarea[required]');
+      
+      inputs.forEach(input => {
+        const value = input.value.trim();
+        const isEmailField = input.type === 'email';
+        
+        // Reset validation state
+        input.classList.remove('is-invalid');
+        
+        // Check if field is empty
+        if (!value) {
+          input.classList.add('is-invalid');
+          isValid = false;
+          return;
+        }
+        
+        // Validate email format
+        if (isEmailField) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(value)) {
+            input.classList.add('is-invalid');
+            isValid = false;
+            return;
+          }
+        }
+        
+        input.classList.add('is-valid');
+      });
+      
+      return isValid;
+    }
+
+    contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!validateForm()) {
+        return;
+      }
+
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+      
+      // Mostra stato di caricamento
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Invio...';
+
+      // Prepara i dati del form
+      const formData = new FormData(contactForm);
+      const templateParams = {
+        from_name: formData.get('nome'),
+        from_email: formData.get('email'),
+        subject: formData.get('oggetto'),
+        message: formData.get('messaggio'),
+        to_email: 'nicolo.dimarco95ct@gmail.com'
+      };
+
+      try {
+        // Invia email tramite EmailJS
+        const response = await emailjs.send(
+          'YOUR_SERVICE_ID', // Sostituisci con il tuo Service ID
+          'YOUR_TEMPLATE_ID', // Sostituisci con il tuo Template ID
+          templateParams
+        );
+
+        if (response.status === 200) {
+          showAlert(successAlert);
+          contactForm.reset();
+          contactForm.querySelectorAll('.is-valid').forEach(input => {
+            input.classList.remove('is-valid');
+          });
+        } else {
+          throw new Error('Errore invio');
+        }
+      } catch (error) {
+        console.error('Errore:', error);
+        showAlert(errorAlert);
+      } finally {
+        // Ripristina il bottone
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    });
+
+    // Validazione in tempo reale
+    contactForm.addEventListener('input', function(e) {
+      if (e.target.hasAttribute('required')) {
+        const value = e.target.value.trim();
+        const isEmailField = e.target.type === 'email';
+        
+        e.target.classList.remove('is-invalid', 'is-valid');
+        
+        if (value) {
+          if (isEmailField) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            e.target.classList.add(emailRegex.test(value) ? 'is-valid' : 'is-invalid');
+          } else {
+            e.target.classList.add('is-valid');
+          }
+        }
+      }
+    });
+
+    // Auto-hide alerts
+    document.querySelectorAll('.alert-floating').forEach(alert => {
+      alert.addEventListener('shown.bs.alert', function() {
+        setTimeout(() => {
+          alert.classList.remove('show');
+        }, 5000);
+      });
+    });
+
+    // Google Translate API (backup nascosto)
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'it',
+        includedLanguages: 'it,en,es,de,ja,nl',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+    
+    // Carica Google Translate solo se necessario (opzionale)
+    if (window.location.search.includes('google_translate=true')) {
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(script);
+    }
+  </script>
+
+</body>
+</html>

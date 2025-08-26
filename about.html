@@ -1,0 +1,1493 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio - Chi sono</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Font Awesome per icone migliori -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* TEMA SCURO */
+    body {
+      transition: background-color 0.3s, color 0.3s;
+      padding-top: 80px;
+    }
+    
+    body.dark-mode { 
+      background-color: #121212; 
+      color: #f1f1f1; 
+    }
+    
+    body.dark-mode .navbar {
+      background-color: #1a1a1a !important;
+    }
+    
+    body.dark-mode .navbar-brand,
+    body.dark-mode .nav-link {
+      color: #f1f1f1 !important;
+    }
+    
+    body.dark-mode .nav-link:hover {
+      color: #2575fc !important;
+    }
+    
+    body.dark-mode footer {
+      background-color: #1a1a1a !important;
+    }
+    
+    body.dark-mode .card {
+      background-color: #2a2a2a !important;
+      border-color: #444 !important;
+    }
+
+    body.dark-mode .card .card-title,
+    body.dark-mode .card .card-text {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .text-muted  {
+      color: #f1f1f1 !important;
+    }
+    
+    body.dark-mode .section-bg {
+      background-color: #1e1e1e !important;
+    }
+    
+    body.dark-mode .progress-bar {
+      background-color: #2575fc !important;
+    }
+    
+    /* MODALITÀ DALTONICO */
+    body.grayscale * { 
+      filter: grayscale(100%) !important; 
+    }
+    
+    body.grayscale {
+      filter: none !important;
+    }
+
+    /* SWITCH TEMA (sole/luna) */
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .theme-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .theme-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    input:checked + .theme-slider {
+      background-color: #2196F3;
+    }
+    
+    input:checked + .theme-slider:before {
+      transform: translateX(30px);
+    }
+    
+    /* Icone sole/luna */
+    .theme-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+    
+    .sun-icon {
+      left: 8px;
+      color: #ffa500;
+    }
+    
+    .moon-icon {
+      right: 8px;
+      color: #4a90e2;
+    }
+    
+    /* Sole/luna visibilità */
+    body.dark-mode .sun-icon {
+      opacity: 0.3;
+    }
+    
+    body.dark-mode .moon-icon {
+      opacity: 1;
+    }
+    
+    body:not(.dark-mode) .sun-icon {
+      opacity: 1;
+    }
+    
+    body:not(.dark-mode) .moon-icon {
+      opacity: 0.3;
+    }
+    
+    /* BOTTONE DALTONICO */
+    .daltonic-btn {
+      background: transparent;
+      border: 1px solid #6c757d;
+      color: #6c757d;
+      border-radius: 5px;
+      padding: 5px 10px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .daltonic-btn:hover {
+      background: #6c757d;
+      color: white;
+    }
+    
+    .daltonic-btn.active {
+      background: #2575fc;
+      color: white;
+      border-color: #2575fc;
+    }
+    
+    .daltonic-btn .icon-slash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s;
+      font-size: 20px;
+      color: red;
+    }
+    
+    .daltonic-btn.active .icon-slash {
+      transform: translate(-50%, -50%) scale(1) rotate(-15deg);
+    }
+
+    /* SELETTORE LINGUA CON DROPDOWN PERSONALIZZATO */
+    .language-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .language-button {
+      background: transparent;
+      border: 1px solid #6c757d;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+      min-width: 80px;
+      justify-content: center;
+    }
+    
+    .language-button:hover {
+      background: #6c757d;
+      color: white;
+    }
+    
+    body.dark-mode .language-button {
+      background: #2a2a2a;
+      color: #f1f1f1;
+      border-color: #555;
+    }
+    
+    body.dark-mode .language-button:hover {
+      background: #444;
+    }
+    
+    .language-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+      min-width: 120px;
+      margin-top: 2px;
+    }
+    
+    body.dark-mode .language-menu {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #f1f1f1;
+    }
+    
+    body.dark-mode .language-option {
+      color: #f1f1f1;
+    }
+    
+    .language-menu.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .language-option {
+      padding: 10px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      transition: background-color 0.2s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    
+    .language-option:hover {
+      background: #f5f5f5;
+    }
+    
+    body.dark-mode .language-option:hover {
+      background: #444;
+    }
+    
+    .language-option.active {
+      background: #2575fc;
+      color: white;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SEZIONI SPECIFICHE ABOUT */
+    .section-bg {
+      background-color: #f8f9fa;
+    }
+    
+    .profile-img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border: 5px solid #2575fc;
+      transition: transform 0.3s;
+    }
+    
+    .profile-img:hover {
+      transform: scale(1.05);
+    }
+    
+    .skill-item {
+      margin-bottom: 1.5rem;
+    }
+    
+    .progress {
+      height: 12px;
+      border-radius: 6px;
+      background-color: rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background: linear-gradient(45deg, #2575fc, #6a11cb);
+      border-radius: 6px;
+      transition: width 1s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+    
+    .experience-item {
+      position: relative;
+      padding-left: 2rem;
+      border-left: 3px solid #2575fc;
+      margin-bottom: 2rem;
+    }
+    
+    .experience-item::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 0;
+      width: 13px;
+      height: 13px;
+      background: #2575fc;
+      border-radius: 50%;
+    }
+    
+    .card {
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    
+    .icon-box {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 24px;
+      color: white;
+    }
+
+    /* Nasconde elementi Google Translate */
+    #google_translate_element {
+      display: none;
+    }
+    
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+    
+    body {
+      top: 0 !important;
+    }
+    
+    .goog-te-combo {
+      display: none !important;
+    }
+
+    .IconFlag{
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Competenze specifiche con icone */
+    .tech-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      border-radius: 25px;
+      margin: 0.25rem;
+      font-size: 0.9rem;
+      transition: transform 0.2s;
+    }
+
+    .tech-badge:hover {
+      transform: scale(1.05);
+    }
+
+    .tech-category {
+      margin-bottom: 2rem;
+    }
+
+    .tech-category h5 {
+      color: #2575fc;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar .d-flex {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      
+      .language-menu {
+        right: auto;
+        left: 0;
+      }
+      
+      .profile-img {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .experience-item {
+        padding-left: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-globe"></i> Portfolio
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="about.html">
+              <span class="translate-chi-sono">Chi sono</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="projects.html">
+              <span class="translate-progetti">Progetti</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">
+              <span class="translate-contatti">Contatti</span>
+            </a>
+          </li>
+        </ul>
+        <div class="ms-3 d-flex gap-3 align-items-center">
+
+          <!-- Switch Tema Chiaro/Scuro -->
+          <label class="theme-switch" title="Tema chiaro/scuro">
+            <input type="checkbox" id="theme-toggle">
+            <span class="theme-slider">
+              <i class="fas fa-sun theme-icon sun-icon"></i>
+              <i class="fas fa-moon theme-icon moon-icon"></i>
+            </span>
+          </label>
+
+          <!-- Bottone Daltonico -->
+          <button type="button" id="daltonic-btn" class="daltonic-btn" aria-label="Modalità daltonico" title="Modalità daltonico">
+            <i class="fas fa-eye"></i>
+            <i class="fas fa-slash icon-slash"></i>
+          </button>
+
+          <!-- Selettore Lingua con Dropdown -->
+          <div class="language-dropdown">
+            <button class="language-button" id="language-button" aria-label="Seleziona lingua">
+              <span id="current-flag">🇮🇹</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+            </button>
+            <div class="language-menu" id="language-menu">
+              <button class="language-option active" data-lang="it">
+                <span><img src="Images/Flags/it.svg" class="IconFlag"></span> Italiano
+              </button>
+              <button class="language-option" data-lang="en">
+                <span><img src="Images/Flags/gb.svg" class="IconFlag"></span> English
+              </button>
+              <button class="language-option" data-lang="es">
+                <span><img src="Images/Flags/es.svg" class="IconFlag"></span> Español
+              </button>
+              <button class="language-option" data-lang="de">
+                <span><img src="Images/Flags/de.svg" class="IconFlag"></span> Deutsch
+              </button>
+              <button class="language-option" data-lang="ja">
+                <span><img src="Images/Flags/jp.svg" class="IconFlag"></span> 日本語
+              </button>
+              <button class="language-option" data-lang="nl">
+                <span><img src="Images/Flags/nl.svg" class="IconFlag"></span> Nederlands
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header Section -->
+  <section class="py-5" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white;">
+    <div class="container text-center">
+      <h1 data-aos="fade-up" class="display-4 mb-3">
+        <span class="translate-chi-sono-title">Chi sono</span>
+      </h1>
+      <p data-aos="fade-up" data-aos-delay="200" class="lead">
+        <span class="translate-scopri-storia">Scopri la mia storia e il mio percorso professionale</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-4 text-center" data-aos="fade-right">
+          <img src="Images/Profile Image.jpg" alt="Nicolò Di Marco" class="profile-img rounded-circle mb-4">
+        </div>
+        <div class="col-lg-8" data-aos="fade-left">
+          <h2 class="mb-4">
+            <span class="translate-la-mia-storia">La mia storia</span>
+          </h2>
+          <p class="mb-4">
+            <span class="translate-biografia-1">Sono Nicolò Di Marco, un Analista Sviluppatore Software con anni di esperienza nel campo dell'informatica. Nel corso delle mie esperienze universitarie e lavorative, ho acquisito varie competenze sia nel settore di sviluppo software, che nel settore sistemistico.</span>
+          </p>
+          <p class="mb-4">
+            <span class="translate-biografia-2">Ho conseguito la laurea triennale nel Marzo 2019 in Informatica e ho completato la laurea magistrale in Informatica (curriculum Data Science) nell'Aprile 2025. Da Maggio 2019 a Settembre 2019 ho collaborato come stagista con l'azienda Prisma S.R.L. presso la sede del cliente Leonardo S.P.A., alla realizzazione di vari progetti di reportistica, facendo uso dei maggiori software per generazione di report tra cui PowerBI e Power Builder.</span>
+          </p>
+          <p>
+            <span class="translate-biografia-3">Successivamente, da Settembre 2019 a Giugno 2023, ho lavorato presso l'azienda BeSmart S.R.L. di Roma come Software Developer all'interno della piattaforma SmartEdu, usata da vari atenei per la gestione tecnico-informatica delle attività dello studente. Attualmente lavoro presso l'azienda Innova Ware S.R.L., società che opera nell'ambito dell'Information Technology e che si occupa della progettazione e dello sviluppo di sistemi e soluzioni software.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="py-5 section-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5" data-aos="fade-up">
+          <h2>
+            <span class="translate-competenze">Le mie competenze</span>
+          </h2>
+          <p class="text-muted">
+            <span class="translate-competenze-desc">Tecnologie e strumenti con cui lavoro quotidianamente</span>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6" data-aos="fade-right">
+          <div class="skill-item">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">
+                <span class="translate-skill-frontend">Frontend Development</span>
+              </span>
+              <span>100%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">
+                <span class="translate-skill-backend">Backend Development (.NET Core)</span>
+              </span>
+              <span>100%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">
+                <span class="translate-skill-database">Database Design & Management</span>
+              </span>
+              <span>100%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+          <div class="skill-item">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">
+                <span class="translate-skill-design">Gaming Development</span>
+              </span>
+              <span>80%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">
+                <span class="translate-skill-mobile">Mobile Development</span>
+              </span>
+              <span>65%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 65%"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">
+                <span class="translate-skill-project">Project Management</span>
+              </span>
+              <span>80%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width: 80%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Skills Detail Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5" data-aos="fade-up">
+          <h2>
+            <span class="translate-competenze-tecniche">Competenze Tecniche Dettagliate</span>
+          </h2>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-6 mb-4" data-aos="fade-right">
+          <div class="tech-category">
+            <h5><i class="fas fa-code"></i> <span class="translate-linguaggi">Linguaggi di Programmazione</span></h5>
+            <div>
+              <span class="tech-badge"><i class="fab fa-js-square"></i> JavaScript</span>
+              <span class="tech-badge"><i class="fab fa-html5"></i> HTML5</span>
+              <span class="tech-badge"><i class="fab fa-css3-alt"></i> CSS3</span>
+              <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
+              <span class="tech-badge"><i class="fas fa-hashtag"></i> C#</span>
+              <span class="tech-badge"><i class="fab fa-java"></i> Java</span>
+              <span class="tech-badge"><i class="fas fa-plus"></i> C++</span>
+              <span class="tech-badge"><i class="fab fa-php"></i> PHP</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4" data-aos="fade-left">
+          <div class="tech-category">
+            <h5><i class="fas fa-layer-group"></i> <span class="translate-framework">Framework & Library</span></h5>
+            <div>
+              <span class="tech-badge"><i class="fab fa-react"></i> React.js</span>
+              <span class="tech-badge"><i class="fab fa-angular"></i> Angular</span>
+              <span class="tech-badge"><i class="fab fa-node-js"></i> Node.js</span>
+              <span class="tech-badge"><i class="fas fa-cube"></i> .NET Core</span>
+              <span class="tech-badge"><i class="fab fa-bootstrap"></i> Bootstrap</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4" data-aos="fade-right">
+          <div class="tech-category">
+            <h5><i class="fas fa-database"></i> <span class="translate-database">Database</span></h5>
+            <div>
+              <span class="tech-badge"><i class="fas fa-server"></i> SQL Server</span>
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+              <span class="tech-badge"><i class="devicon-mysql-plain"></i> MySQL</span>
+              <span class="tech-badge"><i class="fas fa-leaf"></i> MongoDB</span>
+              <span class="tech-badge"><i class="fas fa-database"></i> Oracle</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4" data-aos="fade-left">
+          <div class="tech-category">
+            <h5><i class="fas fa-tools"></i> <span class="translate-strumenti">Strumenti & DevOps</span></h5>
+            <div>
+              <span class="tech-badge"><i class="fab fa-git-alt"></i> Git/GitHub</span>
+              <span class="tech-badge"><i class="fab fa-docker"></i> Docker</span>
+              <span class="tech-badge"><i class="fab fa-aws"></i> AWS</span>
+              <span class="tech-badge"><i class="fab fa-microsoft"></i> Azure</span>
+              <span class="tech-badge"><i class="fas fa-chart-line"></i> Power BI</span>
+              <span class="tech-badge"><i class="fab fa-jenkins"></i> Jenkins</span>
+              <span class="tech-badge"><i class="fas fa-puzzle-piece"></i> Unity</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4" data-aos="fade-right">
+          <div class="tech-category">
+            <h5><i class="fas fa-mobile-alt"></i> <span class="translate-mobile">Mobile Development</span></h5>
+            <div>
+              <span class="tech-badge"><i class="fab fa-android"></i> Android Studio</span>
+              <span class="tech-badge"><i class="fab fa-apple"></i> iOS (Swift)</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4" data-aos="fade-left">
+          <div class="tech-category">
+            <h5><i class="fas fa-brain"></i> <span class="translate-ai">AI & Data Science</span></h5>
+            <div>
+              <span class="tech-badge"><i class="fas fa-project-diagram"></i> PyTorch</span>
+              <span class="tech-badge"><i class="fas fa-calculator"></i> Pandas</span>
+              <span class="tech-badge"><i class="fas fa-chart-area"></i> NumPy</span>
+              <span class="tech-badge"><i class="fas fa-eye"></i> OpenCV</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5" data-aos="fade-up">
+          <h2>
+            <span class="translate-esperienza">Esperienza professionale</span>
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6" data-aos="fade-right">
+          <div class="experience-item">
+            <h4>
+              <span class="translate-exp-current">Software Developer - Innova Ware S.R.L.</span>
+            </h4>
+            <p class="text-muted mb-2">05/07/2023 - <span class="translate-presente">Presente</span></p>
+            <p>
+              <span class="translate-exp-current-desc">Sviluppo di sistemi e soluzioni software nell'ambito dell'Information Technology. Progettazione e implementazione di applicazioni innovative per diversi settori industriali utilizzando .NET Core, React.js e database SQL Server.</span>
+            </p>
+          </div>
+          <div class="experience-item">
+            <h4>
+              <span class="translate-exp-besmart">Software Developer - BeSmart S.R.L.</span>
+            </h4>
+            <p class="text-muted mb-2">30/09/2019 - 30/06/2023</p>
+            <p>
+              <span class="translate-exp-besmart-desc">Sviluppo all'interno della piattaforma SmartEdu, utilizzata da vari atenei per la gestione tecnico-informatica delle attività dello studente e dei servizi delle segreterie. Implementazione di moduli in C# .NET, sviluppo frontend con JavaScript e gestione database.</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+          <div class="experience-item">
+            <h4>
+              <span class="translate-exp-prisma">Stagista - Prisma S.R.L. (presso Leonardo S.P.A.)</span>
+            </h4>
+            <p class="text-muted mb-2">27/05/2019 - 18/09/2019</p>
+            <p>
+              <span class="translate-exp-prisma-desc">Realizzazione di progetti di reportistica utilizzando i principali software per la generazione di report, tra cui PowerBI e Power Builder. Sviluppo di dashboard interattive e analisi di dati aziendali.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="py-5 section-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5" data-aos="fade-up">
+          <h2>
+            <span class="translate-formazione">Formazione</span>
+          </h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="experience-item" data-aos="fade-up">
+            <h4>
+              <span class="translate-edu-magistrale">Laurea Magistrale in Informatica (Data Science)</span>
+            </h4>
+            <p class="text-muted mb-2">Università di Catania</p>
+            <p class="text-muted mb-2">14/10/2019 - 14/04/2025</p>
+            <p>
+              <span class="translate-edu-magistrale-desc">Curriculum Data Science con focus su Machine Learning, Big Data Analytics, e tecniche avanzate di analisi dei dati. Tesi su ricostruzione del Tempio di Zeus Olimpio di Siracusa Nel Metaverso</span>
+            </p>
+          </div>
+          <div class="experience-item" data-aos="fade-up" data-aos-delay="200">
+            <h4>
+              <span class="translate-edu-triennale">Laurea Triennale in Informatica</span>
+            </h4>
+            
+            <p class="text-muted mb-2">Università di Catania</p>
+            <p class="text-muted mb-2">13/10/2014 - 29/03/2019</p>
+            <p>
+              <span class="translate-edu-triennale-desc">Solide basi in programmazione (Java, C++, Python), algoritmi e strutture dati, basi di dati, ingegneria del software, reti di calcolatori e sistemi operativi. Tesi sui protocolli di comunicazione IOT.</span>
+            </p>
+          </div>
+          <div class="experience-item" data-aos="fade-up" data-aos-delay="400">
+            <h4>
+              <span class="translate-edu-diploma">Diploma di Tecnico Industriale specializzazione Informatica Abacus </span>
+            </h4>
+            <p class="text-muted mb-2">I.T.I.S. G. Marconi</p>
+            <p class="text-muted mb-2">13/09/2009 - 04/07/2014</p>
+            <p>
+              <span class="translate-edu-diploma-desc">Formazione scientifica con particolare focus su matematica, fisica e informatica. Approfondimento delle basi logico-matematiche essenziali per il percorso universitario in informatica.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-5 section-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center mb-5" data-aos="fade-up">
+          <h2>
+            <span class="translate-servizi">Cosa posso fare per te</span>
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="icon-box">
+                <i class="fas fa-code"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="translate-servizio-web">Sviluppo Web Full-Stack</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-servizio-web-desc">Sviluppo completo di applicazioni web con tecnologie moderne: React.js, Angular, .NET Core, Node.js. Soluzioni responsive e performanti.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="icon-box">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="translate-servizio-mobile">Sviluppo Mobile</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-servizio-mobile-desc">App native e cross-platform per iOS e Android. React Native, Xamarin, Flutter per soluzioni mobile innovative.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="icon-box">
+                <i class="fas fa-cloud"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="translate-servizio-cloud">Soluzioni Cloud</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-servizio-cloud-desc">Migrazione e deployment su AWS, Azure. Architetture scalabili, microservizi, containerizzazione con Docker e Kubernetes.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="icon-box">
+                <i class="fas fa-gamepad"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="translate-servizio-gaming">Game Development</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-servizio-gaming-desc">Sviluppo giochi 2D/3D con Unity. Gameplay programming, AI per NPC, sistemi di fisica, pubblicazione su store.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="icon-box">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="translate-servizio-ai">AI & Data Science</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-servizio-ai-desc">Machine Learning, analisi predittiva, computer vision. Implementazione di modelli AI custom per il tuo business.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <div class="icon-box">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <h5 class="card-title">
+                <span class="translate-servizio-consulenza">Consulenza Tecnica</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-servizio-consulenza-desc">Architettura software, code review, ottimizzazione performance, mentoring team di sviluppo.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-5" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: white;">
+    <div class="container text-center">
+      <div data-aos="fade-up">
+        <h2 class="mb-4">
+          <span class="translate-cta-titolo">Hai un progetto in mente?</span>
+        </h2>
+        <p class="lead mb-4">
+          <span class="translate-cta-desc">Sono sempre interessato a nuove sfide e opportunità di collaborazione</span>
+        </p>
+        <a href="contact.html" class="btn btn-light btn-lg">
+          <span class="translate-cta-contatto">Contattami ora</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-3 bg-dark text-light">
+    <div id="google_translate_element"></div>
+    <p class="mb-0">© 2025 Nicolò Di Marco - <span class="translate-diritti">Tutti i diritti riservati</span></p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+
+  <!-- Script principale per gestione tema, daltonico e lingua -->
+  <script>
+    // Traduzioni estese per tutte le lingue
+    const translations = {
+      it: {
+        'chi-sono': 'Chi sono',
+        'progetti': 'Progetti',
+        'contatti': 'Contatti',
+        'chi-sono-title': 'Chi sono',
+        'scopri-storia': 'Scopri la mia storia e il mio percorso professionale',
+        'la-mia-storia': 'La mia storia',
+        'biografia-1': 'Sono Nicolò Di Marco, un Analista Sviluppatore Software con anni di esperienza nel campo dell\'informatica. Nel corso delle mie esperienze universitarie e lavorative, ho acquisito varie competenze sia nel settore di sviluppo software, che nel settore sistemistico.',
+        'biografia-2': 'Ho conseguito la laurea triennale nel Marzo 2019 in Informatica e ho completato la laurea magistrale in Informatica (curriculum Data Science) nell\'Aprile 2025. Da Maggio 2019 a Settembre 2019 ho collaborato come stagista con l\'azienda Prisma S.R.L. presso la sede del cliente Leonardo S.P.A., alla realizzazione di vari progetti di reportistica, facendo uso dei maggiori software per generazione di report tra cui PowerBI e Power Builder.',
+        'biografia-3': 'Successivamente, da Settembre 2019 a Giugno 2023, ho lavorato presso l\'azienda BeSmart S.R.L. di Roma come Software Developer all\'interno della piattaforma SmartEdu, usata da vari atenei per la gestione tecnico-informatica delle attività dello studente. Attualmente lavoro presso l\'azienda Innova Ware S.R.L., società che opera nell\'ambito dell\'Information Technology e che si occupa della progettazione e dello sviluppo di sistemi e soluzioni software.',
+        'competenze': 'Le mie competenze',
+        'competenze-desc': 'Tecnologie e strumenti con cui lavoro quotidianamente',
+        'competenze-tecniche': 'Competenze Tecniche Dettagliate',
+        'linguaggi': 'Linguaggi di Programmazione',
+        'framework': 'Framework & Library',
+        'database': 'Database',
+        'strumenti': 'Strumenti & DevOps',
+        'mobile': 'Mobile Development',
+        'ai': 'AI & Data Science',
+        'skill-frontend': 'Frontend Development',
+        'skill-backend': 'Backend Development (.NET Core)',
+        'skill-database': 'Database Design & Management',
+        'skill-design': 'Gaming Development',
+        'skill-mobile': 'Mobile Development',
+        'skill-project': 'Project Management',
+        'esperienza': 'Esperienza professionale',
+        'exp-current': 'Software Developer - Innova Ware S.R.L.',
+        'presente': 'Presente',
+        'exp-current-desc': 'Sviluppo di sistemi e soluzioni software nell\'ambito dell\'Information Technology. Progettazione e implementazione di applicazioni innovative per diversi settori industriali utilizzando .NET Core, React.js e database SQL Server.',
+        'exp-besmart': 'Software Developer - BeSmart S.R.L.',
+        'exp-besmart-desc': 'Sviluppo all\'interno della piattaforma SmartEdu, utilizzata da vari atenei per la gestione tecnico-informatica delle attività dello studente e dei servizi delle segreterie. Implementazione di moduli in C# .NET, sviluppo frontend con JavaScript e gestione database.',
+        'exp-prisma': 'Stagista - Prisma S.R.L. (presso Leonardo S.P.A.)',
+        'exp-prisma-desc': 'Realizzazione di progetti di reportistica utilizzando i principali software per la generazione di report, tra cui PowerBI e Power Builder. Sviluppo di dashboard interattive e analisi di dati aziendali.',
+        'formazione': 'Formazione',
+        'edu-magistrale': 'Laurea Magistrale in Informatica (Data Science)',
+        'edu-magistrale-desc': 'Curriculum Data Science con focus su Machine Learning, Big Data Analytics, e tecniche avanzate di analisi dei dati. Tesi su ricostruzione del Tempio di Zeus Olimpio di Siracusa Nel Metaverso.',
+        'edu-triennale': 'Laurea Triennale in Informatica',
+        'edu-triennale-desc': 'Solide basi in programmazione (Java, C++, Python), algoritmi e strutture dati, basi di dati, ingegneria del software, reti di calcolatori e sistemi operativi. Tesi sui protocolli di comunicazione IOT.',
+        'edu-diploma': 'Diploma di Tecnico Industriale specializzazione Informatica Abacus',
+        'edu-diploma-desc': 'Formazione scientifica con particolare focus su matematica, fisica e informatica. Approfondimento delle basi logico-matematiche essenziali per il percorso universitario in informatica.',
+        'certificazioni': 'Certificazioni e Corsi',
+        'cert-azure': 'Microsoft Azure Fundamentals',
+        'cert-azure-desc': 'Certificazione sui servizi cloud Microsoft Azure, deployment e gestione di applicazioni cloud-native.',
+        'cert-aws': 'AWS Cloud Practitioner',
+        'cert-aws-desc': 'Conoscenza dei servizi Amazon Web Services, architetture cloud e best practices di sicurezza.',
+        'cert-powerbi': 'Microsoft Power BI Specialist',
+        'cert-powerbi-desc': 'Specializzazione in Business Intelligence, creazione di dashboard e reportistica avanzata.',
+        'cert-docker': 'Docker & Kubernetes',
+        'cert-docker-desc': 'Containerizzazione di applicazioni e orchestrazione con Kubernetes per deployment scalabili.',
+        'cert-ml': 'Machine Learning Specialist',
+        'cert-ml-desc': 'Algoritmi di Machine Learning, Deep Learning con TensorFlow e PyTorch, analisi predittiva.',
+        'cert-unity': 'Unity Certified Developer',
+        'cert-unity-desc': 'Sviluppo di giochi e applicazioni interactive con Unity Engine, programmazione in C# per gaming.',
+        'servizi': 'Cosa posso fare per te',
+        'servizio-web': 'Sviluppo Web Full-Stack',
+        'servizio-web-desc': 'Sviluppo completo di applicazioni web con tecnologie moderne: React.js, Angular, .NET Core, Node.js. Soluzioni responsive e performanti.',
+        'servizio-mobile': 'Sviluppo Mobile',
+        'servizio-mobile-desc': 'App native e cross-platform per iOS e Android. React Native, Xamarin, Flutter per soluzioni mobile innovative.',
+        'servizio-cloud': 'Soluzioni Cloud',
+        'servizio-cloud-desc': 'Migrazione e deployment su AWS, Azure. Architetture scalabili, microservizi, containerizzazione con Docker e Kubernetes.',
+        'servizio-gaming': 'Game Development',
+        'servizio-gaming-desc': 'Sviluppo giochi 2D/3D con Unity. Gameplay programming, AI per NPC, sistemi di fisica, pubblicazione su store.',
+        'servizio-ai': 'AI & Data Science',
+        'servizio-ai-desc': 'Machine Learning, analisi predittiva, computer vision. Implementazione di modelli AI custom per il tuo business.',
+        'servizio-consulenza': 'Consulenza Tecnica',
+        'servizio-consulenza-desc': 'Architettura software, code review, ottimizzazione performance, mentoring team di sviluppo.',
+        'cta-titolo': 'Hai un progetto in mente?',
+        'cta-desc': 'Sono sempre interessato a nuove sfide e opportunità di collaborazione',
+        'cta-contatto': 'Contattami ora',
+        'diritti': 'Tutti i diritti riservati'
+      },
+      en: {
+        'chi-sono': 'About',
+        'progetti': 'Projects',
+        'contatti': 'Contact',
+        'chi-sono-title': 'About Me',
+        'scopri-storia': 'Discover my story and professional journey',
+        'la-mia-storia': 'My Story',
+        'biografia-1': 'I am Nicolò Di Marco, a Software Developer Analyst with years of experience in the field of computer science. Throughout my university and work experiences, I have acquired various skills both in software development and in the systems sector.',
+        'biografia-2': 'I obtained my bachelor\'s degree in Computer Science in March 2019 and completed my master\'s degree in Computer Science (Data Science curriculum) in April 2025. From May 2019 to September 2019, I collaborated as an intern with Prisma S.R.L. company at the client site Leonardo S.P.A., working on various reporting projects using major report generation software including PowerBI and Power Builder.',
+        'biografia-3': 'Subsequently, from September 2019 to June 2023, I worked at BeSmart S.R.L. company in Rome as a Software Developer within the SmartEdu platform, used by various universities for technical-IT management of student activities and secretariat services. Currently, I work at Innova Ware S.R.L., a company operating in Information Technology that deals with design and development of software systems and solutions.',
+        'competenze': 'My Skills',
+        'competenze-desc': 'Technologies and tools I work with daily',
+        'competenze-tecniche': 'Detailed Technical Skills',
+        'linguaggi': 'Programming Languages',
+        'framework': 'Framework & Libraries',
+        'database': 'Databases',
+        'strumenti': 'Tools & DevOps',
+        'mobile': 'Mobile Development',
+        'ai': 'AI & Data Science',
+        'skill-frontend': 'Frontend Development',
+        'skill-backend': 'Backend Development (.NET Core)',
+        'skill-database': 'Database Design & Management',
+        'skill-design': 'Gaming Development',
+        'skill-mobile': 'Mobile Development',
+        'skill-project': 'Project Management',
+        'esperienza': 'Professional Experience',
+        'exp-current': 'Software Developer - Innova Ware S.R.L.',
+        'presente': 'Present',
+        'exp-current-desc': 'Development of software systems and solutions in the Information Technology field. Design and implementation of innovative applications for different industrial sectors using .NET Core, React.js and SQL Server databases.',
+        'exp-besmart': 'Software Developer - BeSmart S.R.L.',
+        'exp-besmart-desc': 'Development within the SmartEdu platform, used by various universities for technical-IT management of student activities and secretariat services. Implementation of modules in C# .NET, frontend development with JavaScript and database management.',
+        'exp-prisma': 'Intern - Prisma S.R.L. (at Leonardo S.P.A.)',
+        'exp-prisma-desc': 'Implementation of reporting projects using major report generation software, including PowerBI and Power Builder. Development of interactive dashboards and business data analysis.',
+        'formazione': 'Education',
+        'edu-magistrale': 'Master\'s Degree in Computer Science (Data Science)',
+        'edu-magistrale-desc': 'Data Science curriculum with focus on Machine Learning, Big Data Analytics, and advanced data analysis techniques. Thesis on the reconstruction of the Temple of Olympian Zeus of Syracuse in the Metaverse.',
+        'edu-triennale': 'Bachelor\'s Degree in Computer Science',
+        'edu-triennale-desc': 'Solid foundation in programming (Java, C++, Python), algorithms and data structures, databases, software engineering, computer networks and operating systems. Thesis on IoT communication protocols.',
+        'edu-diploma': 'Industrial Technical Diploma, Computer Science specialization (Abacus)',
+        'edu-diploma-desc': 'Scientific education with particular focus on mathematics, physics and computer science. Study of logical-mathematical foundations essential for university studies in computer science.',
+        'certificazioni': 'Certifications and Courses',
+        'cert-azure': 'Microsoft Azure Fundamentals',
+        'cert-azure-desc': 'Certification on Microsoft Azure cloud services, deployment and management of cloud-native applications.',
+        'cert-aws': 'AWS Cloud Practitioner',
+        'cert-aws-desc': 'Knowledge of Amazon Web Services, cloud architectures and security best practices.',
+        'cert-powerbi': 'Microsoft Power BI Specialist',
+        'cert-powerbi-desc': 'Specialization in Business Intelligence, dashboard creation and advanced reporting.',
+        'cert-docker': 'Docker & Kubernetes',
+        'cert-docker-desc': 'Application containerization and orchestration with Kubernetes for scalable deployments.',
+        'cert-ml': 'Machine Learning Specialist',
+        'cert-ml-desc': 'Machine Learning algorithms, Deep Learning with TensorFlow and PyTorch, predictive analysis.',
+        'cert-unity': 'Unity Certified Developer',
+        'cert-unity-desc': 'Game and interactive application development with Unity Engine, C# programming for gaming.',
+        'servizi': 'What I Can Do For You',
+        'servizio-web': 'Full-Stack Web Development',
+        'servizio-web-desc': 'Complete web application development with modern technologies: React.js, Angular, .NET Core, Node.js. Responsive and performant solutions.',
+        'servizio-mobile': 'Mobile Development',
+        'servizio-mobile-desc': 'Native and cross-platform apps for iOS and Android. React Native, Xamarin, Flutter for innovative mobile solutions.',
+        'servizio-cloud': 'Cloud Solutions',
+        'servizio-cloud-desc': 'Migration and deployment on AWS, Azure. Scalable architectures, microservices, containerization with Docker and Kubernetes.',
+        'servizio-gaming': 'Game Development',
+        'servizio-gaming-desc': '2D/3D game development with Unity. Gameplay programming, AI for NPCs, physics systems, store publishing.',
+        'servizio-ai': 'AI & Data Science',
+        'servizio-ai-desc': 'Machine Learning, predictive analysis, computer vision. Implementation of custom AI models for your business.',
+        'servizio-consulenza': 'Technical Consulting',
+        'servizio-consulenza-desc': 'Software architecture, code review, performance optimization, development team mentoring.',
+        'cta-titolo': 'Have a project in mind?',
+        'cta-desc': 'I am always interested in new challenges and collaboration opportunities',
+        'cta-contatto': 'Contact me now',
+        'diritti': 'All rights reserved'
+      },
+      es: {
+        'chi-sono': 'Sobre mí',
+        'progetti': 'Proyectos',
+        'contatti': 'Contacto',
+        'chi-sono-title': 'Sobre mí',
+        'scopri-storia': 'Descubre mi historia y mi trayectoria profesional',
+        'la-mia-storia': 'Mi Historia',
+        'biografia-1': 'Soy Nicolò Di Marco, un apasionado analista desarrollador de software con una fuerte inclinación por el diseño y la innovación tecnológica. Mi carrera comenzó con una profunda curiosidad por el mundo digital y ha evolucionado hacia una pasión concreta por crear soluciones de software elegantes y eficientes.',
+        'biografia-2': 'Con años de experiencia en el sector, me he especializado en el desarrollo de aplicaciones web modernas, análisis de requisitos de software y diseño de interfaces de usuario intuitivas. Mi enfoque combina competencias técnicas sólidas con una visión creativa, permitiéndome transformar ideas complejas en soluciones prácticas y fáciles de usar.',
+        'biografia-3': 'Como freelancer, he tenido la oportunidad de colaborar con diversas realidades empresariales, adquiriendo una visión 360° de los procesos de desarrollo y una particular sensibilidad hacia las necesidades del cliente final.',
+        'competenze': 'Mis Competencias',
+        'competenze-desc': 'Tecnologías y herramientas con las que trabajo diariamente',
+        'skill-frontend': 'Desarrollo Frontend',
+        'skill-backend': 'Desarrollo Backend',
+        'skill-database': 'Diseño de Bases de Datos',
+        'skill-design': 'Diseño UI/UX',
+        'skill-mobile': 'Desarrollo Móvil',
+        'skill-project': 'Gestión de Proyectos',
+        'esperienza': 'Experiencia Profesional',
+        'exp-freelancer': 'Desarrollador de Software Freelancer',
+        'presente': 'Presente',
+        'exp-freelancer-desc': 'Desarrollo de soluciones de software personalizadas para clientes en diversos sectores. Enfoque en aplicaciones web modernas, optimización del rendimiento y experiencia del usuario.',
+        'exp-analyst': 'Analista de Software',
+        'exp-analyst-desc': 'Análisis de requisitos de software, diseño de arquitecturas de aplicaciones y coordinación de equipos de desarrollo para proyectos empresariales.',
+        'exp-developer': 'Desarrollador Junior',
+        'exp-developer-desc': 'Desarrollo de aplicaciones web utilizando tecnologías modernas. Colaboración en equipos ágiles y aprendizaje continuo de las mejores prácticas del sector.',
+        'exp-intern': 'Desarrollador en Prácticas',
+        'exp-intern-desc': 'Primer acercamiento al mundo del desarrollo de software profesional. Formación en lenguajes de programación y metodologías de desarrollo.',
+        'servizi': 'Qué puedo hacer por ti',
+        'servizio-web': 'Desarrollo Web',
+        'servizio-web-desc': 'Creación de sitios web y aplicaciones web responsivas, modernas y optimizadas para todos los dispositivos.',
+        'servizio-mobile': 'Apps Móviles',
+        'servizio-mobile-desc': 'Desarrollo de aplicaciones móviles nativas e híbridas para iOS y Android con enfoque en la usabilidad.',
+        'servizio-analisi': 'Análisis de Software',
+        'servizio-analisi-desc': 'Análisis de requisitos, diseño de arquitecturas de software y consultoría tecnológica.',
+        'servizio-design': 'Diseño UI/UX',
+        'servizio-design-desc': 'Diseño de interfaces de usuario intuitivas y experiencias de usuario atractivas para web y móvil.',
+        'servizio-manutenzione': 'Mantenimiento',
+        'servizio-manutenzione-desc': 'Mantenimiento, actualizaciones y optimización de aplicaciones existentes para garantizar un rendimiento óptimo.',
+        'servizio-consulenza': 'Consultoría',
+        'servizio-consulenza-desc': 'Consultoría tecnológica para elegir las mejores soluciones y estrategias digitales para tu negocio.',
+        'cta-titolo': '¿Tienes un proyecto en mente?',
+        'cta-desc': 'Siempre estoy interesado en nuevos desafíos y oportunidades de colaboración',
+        'cta-contatto': 'Contáctame ahora',
+        'diritti': 'Todos los derechos reservados',
+        'formazione': 'Formación',
+        'edu-magistrale': 'Máster en Informática (Data Science)',
+        'edu-magistrale-desc': 'Currículum en Data Science con enfoque en Machine Learning, Big Data Analytics y técnicas avanzadas de análisis de datos. Tesis sobre la reconstrucción del Templo de Zeus Olímpico de Siracusa en el Metaverso.',
+        'edu-triennale': 'Grado en Informática',
+        'edu-triennale-desc': 'Bases sólidas en programación (Java, C++, Python), algoritmos y estructuras de datos, bases de datos, ingeniería de software, redes de computadoras y sistemas operativos. Tesis sobre protocolos de comunicación IoT.',
+        'edu-diploma': 'Diploma de Técnico Industrial en Informática Abacus',
+        'edu-diploma-desc': 'Formación científica con especial enfoque en matemáticas, física e informática. Profundización en las bases lógico-matemáticas esenciales para los estudios universitarios en informática.',
+      },
+      de: {
+        'chi-sono': 'Über mich',
+        'progetti': 'Projekte',
+        'contatti': 'Kontakt',
+        'chi-sono-title': 'Über mich',
+        'scopri-storia': 'Entdecke meine Geschichte und meinen beruflichen Werdegang',
+        'la-mia-storia': 'Meine Geschichte',
+        'biografia-1': 'Ich bin Nicolò Di Marco, ein leidenschaftlicher Software-Entwickler-Analyst mit einer starken Neigung für Design und technologische Innovation. Meine Laufbahn begann mit einer tiefen Neugier für die digitale Welt und hat sich zu einer konkreten Leidenschaft für die Erstellung eleganter und effizienter Software-Lösungen entwickelt.',
+        'biografia-2': 'Mit jahrelanger Erfahrung im Bereich habe ich mich auf die Entwicklung moderner Webanwendungen, die Analyse von Software-Anforderungen und das Design intuitiver Benutzeroberflächen spezialisiert. Mein Ansatz kombiniert solide technische Kompetenzen mit einer kreativen Vision, die es mir ermöglicht, komplexe Ideen in praktische und benutzerfreundliche Lösungen zu verwandeln.',
+        'biografia-3': 'Als Freelancer hatte ich die Gelegenheit, mit verschiedenen Geschäftsrealitäten zu arbeiten und dabei eine 360°-Sicht auf Entwicklungsprozesse und eine besondere Sensibilität für die Bedürfnisse der Endkunden zu gewinnen.',
+        'competenze': 'Meine Kompetenzen',
+        'competenze-desc': 'Technologien und Tools, mit denen ich täglich arbeite',
+        'skill-frontend': 'Frontend-Entwicklung',
+        'skill-backend': 'Backend-Entwicklung',
+        'skill-database': 'Datenbank-Design',
+        'skill-design': 'UI/UX-Design',
+        'skill-mobile': 'Mobile Entwicklung',
+        'skill-project': 'Projektmanagement',
+        'esperienza': 'Berufserfahrung',
+        'exp-freelancer': 'Freelancer Software-Entwickler',
+        'presente': 'Gegenwart',
+        'exp-freelancer-desc': 'Entwicklung maßgeschneiderter Software-Lösungen für Kunden in verschiedenen Sektoren. Fokus auf moderne Webanwendungen, Performance-Optimierung und Benutzererfahrung.',
+        'exp-analyst': 'Software-Analyst',
+        'exp-analyst-desc': 'Software-Anforderungsanalyse, Anwendungsarchitektur-Design und Koordination von Entwicklungsteams für Unternehmensprojekte.',
+        'exp-developer': 'Junior-Entwickler',
+        'exp-developer-desc': 'Entwicklung von Webanwendungen mit modernen Technologien. Zusammenarbeit in agilen Teams und kontinuierliches Lernen der branchenüblichen Best Practices.',
+        'exp-intern': 'Entwickler-Praktikant',
+        'exp-intern-desc': 'Erster Ansatz zur professionellen Software-Entwicklungswelt. Ausbildung in Programmiersprachen und Entwicklungsmethodologien.',
+        'servizi': 'Was ich für Sie tun kann',
+        'servizio-web': 'Web-Entwicklung',
+        'servizio-web-desc': 'Erstellung von responsiven, modernen Websites und Webanwendungen, optimiert für alle Geräte.',
+        'servizio-mobile': 'Mobile Apps',
+        'servizio-mobile-desc': 'Entwicklung nativer und hybrider mobiler Anwendungen für iOS und Android mit Fokus auf Benutzerfreundlichkeit.',
+        'servizio-analisi': 'Software-Analyse',
+        'servizio-analisi-desc': 'Anforderungsanalyse, Software-Architektur-Design und technologische Beratung.',
+        'servizio-design': 'UI/UX-Design',
+        'servizio-design-desc': 'Design intuitiver Benutzeroberflächen und ansprechender Benutzererfahrungen für Web und Mobile.',
+        'servizio-manutenzione': 'Wartung',
+        'servizio-manutenzione-desc': 'Wartung, Updates und Optimierung bestehender Anwendungen für optimale Performance.',
+        'servizio-consulenza': 'Beratung',
+        'servizio-consulenza-desc': 'Technologische Beratung für die Wahl der besten Lösungen und digitalen Strategien für Ihr Unternehmen.',
+        'cta-titolo': 'Haben Sie ein Projekt im Kopf?',
+        'cta-desc': 'Ich bin immer an neuen Herausforderungen und Kooperationsmöglichkeiten interessiert',
+        'cta-contatto': 'Kontaktieren Sie mich jetzt',
+        'diritti': 'Alle Rechte vorbehalten',
+        'formazione': 'Ausbildung',
+        'edu-magistrale': 'Master in Informatik (Data Science)',
+        'edu-magistrale-desc': 'Data Science Curriculum mit Schwerpunkt auf Machine Learning, Big Data Analytics und fortgeschrittenen Datenanalysetechniken. Thesis über die Rekonstruktion des Tempels des Olympischen Zeus von Syrakus im Metaversum.',
+        'edu-triennale': 'Bachelor in Informatik',
+        'edu-triennale-desc': 'Solide Grundlagen in Programmierung (Java, C++, Python), Algorithmen und Datenstrukturen, Datenbanken, Software Engineering, Rechnernetze und Betriebssysteme. Thesis über IoT-Kommunikationsprotokolle.',
+        'edu-diploma': 'Technisches Industrie-Diplom, Fachrichtung Informatik Abacus',
+        'edu-diploma-desc': 'Wissenschaftliche Ausbildung mit besonderem Schwerpunkt auf Mathematik, Physik und Informatik. Vertiefung der logisch-mathematischen Grundlagen, die für das Informatikstudium an der Universität wesentlich sind.',
+      
+      },
+      ja: {
+        'chi-sono': 'プロフィール',
+        'progetti': 'プロジェクト',
+        'contatti': 'お問い合わせ',
+        'chi-sono-title': '自己紹介',
+        'scopri-storia': '私の物語と専門的な経歴をご覧ください',
+        'la-mia-storia': '私の物語',
+        'biografia-1': '私はニコロ・ディ・マルコです。デザインと技術革新への強い傾向を持つ情熱的なソフトウェア開発アナリストです。私のキャリアはデジタル世界への深い好奇心から始まり、エレガントで効率的なソフトウェアソリューションの創造への具体的な情熱へと発展しました。',
+        'biografia-2': '分野での長年の経験により、現代的なウェブアプリケーションの開発、ソフトウェア要件の分析、直感的なユーザーインターフェースの設計を専門としています。私のアプローチは確実な技術的スキルと創造的なビジョンを組み合わせ、複雑なアイデアを実用的でユーザーフレンドリーなソリューションに変換することを可能にします。',
+        'biografia-3': 'フリーランサーとして、様々なビジネス現実と協力する機会を得て、開発プロセスの360°の視点と最終顧客のニーズに対する特別な感受性を獲得しました。',
+        'competenze': '私のスキル',
+        'competenze-desc': '日常的に使用している技術とツール',
+        'skill-frontend': 'フロントエンド開発',
+        'skill-backend': 'バックエンド開発',
+        'skill-database': 'データベース設計',
+        'skill-design': 'UI/UXデザイン',
+        'skill-mobile': 'モバイル開発',
+        'skill-project': 'プロジェクト管理',
+        'esperienza': '職歴',
+        'exp-freelancer': 'フリーランス ソフトウェア開発者',
+        'presente': '現在',
+        'exp-freelancer-desc': '様々な分野のクライアント向けにカスタマイズされたソフトウェアソリューションの開発。現代的なウェブアプリケーション、パフォーマンス最適化、ユーザーエクスペリエンスに焦点を当てています。',
+        'exp-analyst': 'ソフトウェアアナリスト',
+        'exp-analyst-desc': 'ソフトウェア要件分析、アプリケーションアーキテクチャ設計、エンタープライズプロジェクトの開発チームの調整。',
+        'exp-developer': 'ジュニア開発者',
+        'exp-developer-desc': '現代的な技術を使用したウェブアプリケーション開発。アジャイルチームでの協力と業界のベストプラクティスの継続的な学習。',
+        'exp-intern': '開発者インターン',
+        'exp-intern-desc': 'プロのソフトウェア開発世界への最初のアプローチ。プログラミング言語と開発方法論の訓練。',
+        'servizi': 'あなたのためにできること',
+        'servizio-web': 'ウェブ開発',
+        'servizio-web-desc': 'すべてのデバイスに最適化されたレスポンシブで現代的なウェブサイトとウェブアプリケーションの作成。',
+        'servizio-mobile': 'モバイルアプリ',
+        'servizio-mobile-desc': 'ユーザビリティに焦点を当てたiOSとAndroid向けのネイティブおよびハイブリッドモバイルアプリケーションの開発。',
+        'servizio-analisi': 'ソフトウェア分析',
+        'servizio-analisi-desc': '要件分析、ソフトウェアアーキテクチャ設計、技術コンサルティング。',
+        'servizio-design': 'UI/UXデザイン',
+        'servizio-design-desc': 'ウェブとモバイル向けの直感的なユーザーインターフェースと魅力的なユーザーエクスペリエンスの設計。',
+        'servizio-manutenzione': 'メンテナンス',
+        'servizio-manutenzione-desc': '既存のアプリケーションのメンテナンス、アップデート、最適なパフォーマンスを保証するための最適化。',
+        'servizio-consulenza': 'コンサルティング',
+        'servizio-consulenza-desc': 'あなたのビジネスに最適なソリューションとデジタル戦略を選択するための技術コンサルティング。',
+        'cta-titolo': 'プロジェクトをお考えですか？',
+        'cta-desc': '新しい挑戦と協力の機会にいつも興味を持っています',
+        'cta-contatto': '今すぐお問い合わせください',
+        'diritti': '全著作権所有',
+        'formazione': '学歴',
+        'edu-magistrale': 'コンピュータサイエンス修士号 (データサイエンス)',
+        'edu-magistrale-desc': 'データサイエンスのカリキュラム。機械学習、ビッグデータ分析、高度なデータ解析技術に重点。シラクサのオリンピオス・ゼウス神殿のメタバースにおける再現に関する論文。',
+        'edu-triennale': 'コンピュータサイエンス学士号',
+        'edu-triennale-desc': 'プログラミング (Java, C++, Python)、アルゴリズムとデータ構造、データベース、ソフトウェア工学、コンピュータネットワーク、オペレーティングシステムの基礎。IoT通信プロトコルに関する卒業論文。',
+        'edu-diploma': '工業技術高校卒業 (情報技術 Abacus 専門)',
+        'edu-diploma-desc': '数学、物理学、情報科学に重点を置いた科学的教育。コンピュータサイエンスの大学課程に不可欠な論理数学的基盤を深化。',
+      
+      },
+      nl: {
+        'chi-sono': 'Over mij',
+        'progetti': 'Projecten',
+        'contatti': 'Contact',
+        'chi-sono-title': 'Over mij',
+        'scopri-storia': 'Ontdek mijn verhaal en professionele reis',
+        'la-mia-storia': 'Mijn Verhaal',
+        'biografia-1': 'Ik ben Nicolò Di Marco, een gepassioneerde software ontwikkelaar analist met een sterke neiging voor design en technologische innovatie. Mijn carrière begon met een diepe nieuwsgierigheid voor de digitale wereld en is geëvolueerd tot een concrete passie voor het creëren van elegante en efficiënte software oplossingen.',
+        'biografia-2': 'Met jaren ervaring in het veld heb ik me gespecialiseerd in het ontwikkelen van moderne webapplicaties, het analyseren van software vereisten en het ontwerpen van intuïtieve gebruikersinterfaces. Mijn aanpak combineert solide technische vaardigheden met een creatieve visie, waardoor ik complexe ideeën kan omzetten in praktische en gebruiksvriendelijke oplossingen.',
+        'biografia-3': 'Als freelancer heb ik de kans gehad om samen te werken met verschillende bedrijfsrealiteiten, waarbij ik een 360° visie op ontwikkelingsprocessen heb verkregen en een bijzondere gevoeligheid voor de behoeften van eindklanten.',
+        'competenze': 'Mijn Vaardigheden',
+        'competenze-desc': 'Technologieën en tools waarmee ik dagelijks werk',
+        'skill-frontend': 'Frontend Ontwikkeling',
+        'skill-backend': 'Backend Ontwikkeling',
+        'skill-database': 'Database Ontwerp',
+        'skill-design': 'UI/UX Ontwerp',
+        'skill-mobile': 'Mobiele Ontwikkeling',
+        'skill-project': 'Projectmanagement',
+        'esperienza': 'Professionele Ervaring',
+        'exp-freelancer': 'Freelancer Software Ontwikkelaar',
+        'presente': 'Heden',
+        'exp-freelancer-desc': 'Ontwikkeling van aangepaste software oplossingen voor klanten in verschillende sectoren. Focus op moderne webapplicaties, prestatie optimalisatie en gebruikerservaring.',
+        'exp-analyst': 'Software Analist',
+        'exp-analyst-desc': 'Software vereisten analyse, applicatie architectuur ontwerp en coördinatie van ontwikkelingsteams voor enterprise projecten.',
+        'exp-developer': 'Junior Ontwikkelaar',
+        'exp-developer-desc': 'Webapplicatie ontwikkeling met moderne technologieën. Samenwerking in agile teams en voortdurend leren van industrie best practices.',
+        'exp-intern': 'Ontwikkelaar Stagiair',
+        'exp-intern-desc': 'Eerste benadering van de professionele software ontwikkelingswereld. Training in programmeertalen en ontwikkelingsmethodologieën.',
+        'servizi': 'Wat ik voor je kan doen',
+        'servizio-web': 'Web Ontwikkeling',
+        'servizio-web-desc': 'Creatie van responsive, moderne websites en webapplicaties geoptimaliseerd voor alle apparaten.',
+        'servizio-mobile': 'Mobiele Apps',
+        'servizio-mobile-desc': 'Ontwikkeling van native en hybride mobiele applicaties voor iOS en Android met focus op bruikbaarheid.',
+        'servizio-analisi': 'Software Analyse',
+        'servizio-analisi-desc': 'Vereisten analyse, software architectuur ontwerp en technologische consultancy.',
+        'servizio-design': 'UI/UX Ontwerp',
+        'servizio-design-desc': 'Ontwerp van intuïtieve gebruikersinterfaces en boeiende gebruikerservaringen voor web en mobiel.',
+        'servizio-manutenzione': 'Onderhoud',
+        'servizio-manutenzione-desc': 'Onderhoud, updates en optimalisatie van bestaande applicaties om optimale prestaties te garanderen.',
+        'servizio-consulenza': 'Consultancy',
+        'servizio-consulenza-desc': 'Technologische consultancy voor het kiezen van de beste oplossingen en digitale strategieën voor je bedrijf.',
+        'cta-titolo': 'Heb je een project in gedachten?',
+        'cta-desc': 'Ik ben altijd geïnteresseerd in nieuwe uitdagingen en samenwerkingsmogelijkheden',
+        'cta-contatto': 'Neem nu contact op',
+        'diritti': 'Alle rechten voorbehouden',
+        'formazione': 'Opleiding',
+        'edu-magistrale': 'Master in Informatica (Data Science)',
+        'edu-magistrale-desc': 'Data Science-curriculum met focus op Machine Learning, Big Data Analytics en geavanceerde data-analysetechnieken. Scriptie over de reconstructie van de Tempel van Zeus Olympios in Syracuse in de Metaverse.',
+        'edu-triennale': 'Bachelor in Informatica',
+        'edu-triennale-desc': 'Stevige basis in programmeren (Java, C++, Python), algoritmen en datastructuren, databases, software engineering, computernetwerken en besturingssystemen. Scriptie over IoT-communicatieprotocollen.',
+        'edu-diploma': 'Technisch Industrieel Diploma, Informatica specialisatie Abacus',
+        'edu-diploma-desc': 'Wetenschappelijke opleiding met bijzondere nadruk op wiskunde, natuurkunde en informatica. Verdieping van de logisch-wiskundige basis die essentieel is voor universitaire studies in informatica.',
+      
+      }
+    };
+
+    // Mappa delle bandiere
+    const flags = {
+      it: '🇮🇹',
+      en: '🇬🇧',
+      es: '🇪🇸',
+      de: '🇩🇪',
+      ja: '🇯🇵',
+      nl: '🇳🇱'
+    };
+
+    // GESTIONE TEMA CHIARO/SCURO
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggle.checked = true;
+    }
+    
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // GESTIONE MODALITÀ DALTONICO
+    const daltonicBtn = document.getElementById('daltonic-btn');
+    const savedDaltonic = localStorage.getItem('daltonic');
+    
+    if (savedDaltonic === 'on') {
+      document.body.classList.add('grayscale');
+      daltonicBtn.classList.add('active');
+    }
+    
+    daltonicBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Toggle diretto senza interferire con il DOM
+      document.body.classList.toggle('grayscale');
+      daltonicBtn.classList.toggle('active');
+      const isActive = document.body.classList.contains('grayscale');
+      localStorage.setItem('daltonic', isActive ? 'on' : 'off');
+    });
+
+    // GESTIONE LINGUA CON DROPDOWN
+    const languageButton = document.getElementById('language-button');
+    const languageMenu = document.getElementById('language-menu');
+    const currentFlag = document.getElementById('current-flag');
+    const languageOptions = document.querySelectorAll('.language-option');
+    
+    // Recupera la lingua salvata o usa italiano come default
+    const savedLang = localStorage.getItem('language') || 'it';
+    let currentLanguage = savedLang;
+    
+    function translatePage(lang) {
+      document.querySelectorAll('[class^="translate-"]').forEach(element => {
+        const key = element.className.match(/translate-([a-zA-Z0-9\-]+)/)?.[1];
+        if (key && translations[lang] && translations[lang][key]) {
+          element.textContent = translations[lang][key];
+        }
+      });
+      
+      // Aggiorna l'attributo lang dell'HTML
+      document.documentElement.lang = lang;
+      
+      // Aggiorna la bandiera nel bottone
+      currentFlag.textContent = flags[lang];
+      
+      // Aggiorna gli stati attivi nel menu
+      languageOptions.forEach(option => {
+        option.classList.toggle('active', option.dataset.lang === lang);
+      });
+      
+      // Salva la preferenza
+      localStorage.setItem('language', lang);
+      currentLanguage = lang;
+    }
+    
+    // Applica la lingua salvata all'avvio
+    translatePage(savedLang);
+    
+    // Toggle del menu lingua
+    languageButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      languageMenu.classList.toggle('show');
+    });
+    
+    // Gestione selezione lingua
+    languageOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedLang = option.dataset.lang;
+        translatePage(selectedLang);
+        languageMenu.classList.remove('show');
+      });
+    });
+    
+    // Chiudi menu quando si clicca fuori
+    document.addEventListener('click', (e) => {
+      if (!languageButton.contains(e.target) && !languageMenu.contains(e.target)) {
+        languageMenu.classList.remove('show');
+      }
+    });
+    
+    // Chiudi menu con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        languageMenu.classList.remove('show');
+      }
+    });
+
+    // Google Translate API (backup nascosto)
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'it',
+        includedLanguages: 'it,en,es,de,ja,nl',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+    
+    // Carica Google Translate solo se necessario (opzionale)
+    if (window.location.search.includes('google_translate=true')) {
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(script);
+    }
+  </script>
+
+</body>
+</html>

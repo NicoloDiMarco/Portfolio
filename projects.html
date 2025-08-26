@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio - Progetti</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- AOS Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Font Awesome per icone migliori -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* TEMA SCURO */
+    body {
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    body.dark-mode { 
+      background-color: #121212; 
+      color: #f1f1f1; 
+    }
+    
+    body.dark-mode .navbar {
+      background-color: #1a1a1a !important;
+    }
+    
+    body.dark-mode .navbar-brand,
+    body.dark-mode .nav-link {
+      color: #f1f1f1 !important;
+    }
+    
+    body.dark-mode .nav-link:hover {
+      color: #2575fc !important;
+    }
+    
+    body.dark-mode footer {
+      background-color: #1a1a1a !important;
+    }
+
+    body.dark-mode .card {
+      background-color: #2a2a2a !important;
+      border-color: #444 !important;
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .card-title {
+      color: #f1f1f1 !important;
+    }
+
+    body.dark-mode .card-text {
+      color: #d1d1d1 !important;
+    }
+
+    body.dark-mode .page-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+    
+    /* MODALITÀ DALTONICO */
+    body.grayscale * { 
+      filter: grayscale(100%) !important; 
+    }
+    
+    body.grayscale {
+      filter: none !important;
+    }
+
+    /* SWITCH TEMA (sole/luna) */
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .theme-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .theme-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    input:checked + .theme-slider {
+      background-color: #2196F3;
+    }
+    
+    input:checked + .theme-slider:before {
+      transform: translateX(30px);
+    }
+    
+    /* Icone sole/luna */
+    .theme-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      transition: opacity 0.3s;
+    }
+    
+    .sun-icon {
+      left: 8px;
+      color: #ffa500;
+    }
+    
+    .moon-icon {
+      right: 8px;
+      color: #4a90e2;
+    }
+    
+    /* Sole/luna visibilità */
+    body.dark-mode .sun-icon {
+      opacity: 0.3;
+    }
+    
+    body.dark-mode .moon-icon {
+      opacity: 1;
+    }
+    
+    body:not(.dark-mode) .sun-icon {
+      opacity: 1;
+    }
+    
+    body:not(.dark-mode) .moon-icon {
+      opacity: 0.3;
+    }
+
+    /* BOTTONE DALTONICO */
+    .daltonic-btn {
+      background: transparent;
+      border: 1px solid #6c757d;
+      color: #6c757d;
+      border-radius: 5px;
+      padding: 5px 10px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .daltonic-btn:hover {
+      background: #6c757d;
+      color: white;
+    }
+    
+    .daltonic-btn.active {
+      background: #2575fc;
+      color: white;
+      border-color: #2575fc;
+    }
+    
+    .daltonic-btn .icon-slash {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.3s;
+      font-size: 20px;
+      color: red;
+    }
+    
+    .daltonic-btn.active .icon-slash {
+      transform: translate(-50%, -50%) scale(1) rotate(-15deg);
+    }
+
+    /* SELETTORE LINGUA CON DROPDOWN PERSONALIZZATO */
+    .language-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .language-button {
+      background: transparent;
+      border: 1px solid #6c757d;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      transition: all 0.3s;
+      min-width: 80px;
+      justify-content: center;
+    }
+    
+    .language-button:hover {
+      background: #6c757d;
+      color: white;
+    }
+    
+    body.dark-mode .language-button {
+      background: #2a2a2a;
+      color: #f1f1f1;
+      border-color: #555;
+    }
+    
+    body.dark-mode .language-button:hover {
+      background: #444;
+    }
+    
+    .language-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+      min-width: 120px;
+      margin-top: 2px;
+    }
+    
+    body.dark-mode .language-menu {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #f1f1f1;
+    }
+    
+    body.dark-mode .language-option {
+      color: #f1f1f1;
+    }
+    
+    .language-menu.show {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .language-option {
+      padding: 10px 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      transition: background-color 0.2s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    
+    .language-option:hover {
+      background: #f5f5f5;
+    }
+    
+    body.dark-mode .language-option:hover {
+      background: #444;
+    }
+    
+    .language-option.active {
+      background: #2575fc;
+      color: white;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HEADER DELLA PAGINA */
+    .page-header {
+      padding: 120px 0 60px 0;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .page-header p {
+      font-size: 1.2rem;
+      margin-bottom: 0;
+    }
+
+    /* SEZIONE PROGETTI */
+    .projects-section {
+      padding: 80px 0;
+      background-color: #f8f9fa;
+    }
+
+    body.dark-mode .projects-section {
+      background-color: #1a1a1a;
+    }
+
+    .project-card {
+      height: 100%;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: none;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    body.dark-mode .project-card:hover {
+      box-shadow: 0 15px 35px rgba(255,255,255,0.1);
+    }
+
+    .project-image {
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+      background-color: #e9ecef;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover .project-image::before {
+      opacity: 1;
+    }
+
+    .project-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #6c757d;
+      font-size: 1.2rem;
+    }
+
+    body.dark-mode .project-placeholder {
+      color: #adb5bd;
+    }
+
+    .tech-stack {
+      margin: 15px 0;
+    }
+
+    .tech-badge {
+      display: inline-block;
+      background: #2575fc;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      margin: 2px 4px;
+    }
+
+    body.dark-mode .tech-badge {
+      background: #1a52d1;
+    }
+
+    .project-links {
+      margin-top: 20px;
+    }
+
+    .project-btn {
+      margin: 5px;
+      border-radius: 25px;
+      padding: 8px 20px;
+      transition: all 0.3s;
+    }
+
+    .project-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .IconFlag {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .page-header p {
+        font-size: 1rem;
+      }
+      
+      .projects-section {
+        padding: 50px 0;
+      }
+
+      .navbar .d-flex {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      
+      .language-menu {
+        right: auto;
+        left: 0;
+      }
+
+      .project-card {
+        margin-bottom: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">
+        <i class="fas fa-globe"></i> Portfolio
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">
+              <span class="translate-chi-sono">Chi sono</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="projects.html">
+              <span class="translate-progetti">Progetti</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">
+              <span class="translate-contatti">Contatti</span>
+            </a>
+          </li>
+        </ul>
+        <div class="ms-3 d-flex gap-3 align-items-center">
+
+          <!-- Switch Tema Chiaro/Scuro -->
+          <label class="theme-switch" title="Tema chiaro/scuro">
+            <input type="checkbox" id="theme-toggle">
+            <span class="theme-slider">
+              <i class="fas fa-sun theme-icon sun-icon"></i>
+              <i class="fas fa-moon theme-icon moon-icon"></i>
+            </span>
+          </label>
+
+          <!-- Bottone Daltonico -->
+          <button type="button" id="daltonic-btn" class="daltonic-btn" aria-label="Modalità daltonico" title="Modalità daltonico">
+            <i class="fas fa-eye"></i>
+            <i class="fas fa-slash icon-slash"></i>
+          </button>
+
+          <!-- Selettore Lingua con Dropdown -->
+          <div class="language-dropdown">
+            <button class="language-button" id="language-button" aria-label="Seleziona lingua">
+              <span id="current-flag">🇮🇹</span>
+              <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+            </button>
+            <div class="language-menu" id="language-menu">
+              <button class="language-option active" data-lang="it">
+                <span><img src="Images/Flags/it.svg" class="IconFlag"></span> Italiano
+              </button>
+              <button class="language-option" data-lang="en">
+                <span><img src="Images/Flags/gb.svg" class="IconFlag"></span> English
+              </button>
+              <button class="language-option" data-lang="es">
+                <span><img src="Images/Flags/es.svg" class="IconFlag"></span> Español
+              </button>
+              <button class="language-option" data-lang="de">
+                <span><img src="Images/Flags/de.svg" class="IconFlag"></span> Deutsch
+              </button>
+              <button class="language-option" data-lang="ja">
+                <span><img src="Images/Flags/jp.svg" class="IconFlag"></span> 日本語
+              </button>
+              <button class="language-option" data-lang="nl">
+                <span><img src="Images/Flags/nl.svg" class="IconFlag"></span> Nederlands
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header della Pagina -->
+  <header class="page-header">
+    <div class="container">
+      <h1 data-aos="fade-up">
+        <i class="fas fa-code"></i> <span class="translate-i-miei-progetti">I Miei Progetti</span>
+      </h1>
+      <p data-aos="fade-up" data-aos-delay="200">
+        <span class="translate-progetti-descrizione">Una selezione dei lavori che ho realizzato con passione e dedizione</span>
+      </p>
+    </div>
+  </header>
+
+  <!-- Sezione Progetti -->
+  <section class="projects-section">
+    <div class="container">
+      <div class="row">
+        
+        <!-- Progetto 1 -->
+        <div class="col-lg-6 col-md-12 mb-5" data-aos="fade-up">
+          <div class="card project-card">
+            <div class="project-image" style="background-image: url('Images/Spicyland.jpg');">
+              
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fas fa-laptop-code text-primary"></i> 
+                <span class="translate-progetto1-titolo">SpicyLand</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-progetto1-descrizione">
+                  Piccolo gestionale interno per la gestione di un Fast-Food con pagamento in cassa.
+                  Mediante questa webapp è possibile:
+                  - Creare dei prodotti da inserire nel menu;
+                  - Inserire delle notizie;
+                  - Effettuare prenotazioni;
+                  - Vedere le statistiche sui vari prodotti.
+                </span>
+              </p>
+              <div class="tech-stack">
+                <span class="tech-badge">C#</span>
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">Bootstrap</span>
+                <span class="tech-badge">EntityFramework</span>
+                <span class="tech-badge">SQLServer</span>
+              </div>
+              <div class="project-links">
+                <!--<a href="#" class="btn btn-primary project-btn">
+                  <i class="fas fa-eye"></i> <span class="translate-demo">Demo</span>
+                </a>-->
+                <a href="https://github.com/NickX95ct/SpicyLand" class="btn btn-outline-primary project-btn">
+                  <i class="fab fa-github"></i> <span class="translate-codice">Codice</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progetto 2 -->
+        <div class="col-lg-6 col-md-12 mb-5" data-aos="fade-up" data-aos-delay="200">
+          <div class="card project-card">
+            <div class="project-image" style="background-image: url('Images/project2-placeholder.jpg');">
+              <div class="project-placeholder">
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+               <i class="fas fa-gamepad text-success"></i> 
+                <span class="translate-progetto2-titolo">Assault of Ciro</span>
+              </h5>
+              <p class="card-text">
+                <span class="translate-progetto2-descrizione">
+                  FPS a tempo con livelli di difficoltà progressivi.
+                  Il giocatore deve eliminare tutte le unità aliene presenti nella mappa e raggiungere il punto di teletrasporto prima della scadenza del timer. La sfida consiste nel gestire al meglio risorse, precisione e velocità di movimento: un singolo errore può compromettere la missione e portare alla sconfitta.
+                </span>
+              </p>
+              <div class="tech-stack">
+                <span class="tech-badge">C#</span>
+                <span class="tech-badge">Unity</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="btn btn-success project-btn">
+                  <i class="fas fa-eye"></i> <span class="translate-demo">Demo</span>
+                </a>
+                <a href="#" class="btn btn-outline-success project-btn">
+                  <i class="fab fa-github"></i> <span class="translate-codice">Codice</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-3 bg-dark text-light">
+    <div id="google_translate_element"></div>
+    <p class="mb-0">© 2025 Nicolò Di Marco - <span class="translate-diritti">Tutti i diritti riservati</span></p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+
+  <!-- Script principale per gestione tema, daltonico e lingua -->
+  <script>
+    // Traduzioni estese per tutte le lingue
+    const translations = {
+      it: {
+        'chi-sono': 'Chi sono',
+        'progetti': 'Progetti',
+        'contatti': 'Contatti',
+        'i-miei-progetti': 'I Miei Progetti',
+        'progetti-descrizione': 'Una selezione dei lavori che ho realizzato con passione e dedizione',
+        'progetto1-titolo': 'SpicyLand',
+        'progetto1-descrizione': 'Piccolo gestionale interno per la gestione di un Fast-Food con pagamento in cassa. Mediante questa webapp è possibile: - Creare dei prodotti da inserire nel menu; - Inserire delle notizie; - Effettuare prenotazioni; - Vedere le statistiche sui vari prodotti.',
+        'progetto2-titolo': 'Assault of Ciro',
+        'progetto2-descrizione': 'FPS a tempo con livelli di difficoltà progressivi. Il giocatore deve eliminare tutte le unità aliene presenti nella mappa e raggiungere il punto di teletrasporto prima della scadenza del timer. La sfida consiste nel gestire al meglio risorse, precisione e velocità di movimento: un singolo errore può compromettere la missione e portare alla sconfitta.',
+        'demo': 'Demo',
+        'codice': 'Codice',
+        'diritti': 'Tutti i diritti riservati'
+      },
+      en: {
+        'chi-sono': 'About',
+        'progetti': 'Projects',
+        'contatti': 'Contact',
+        'i-miei-progetti': 'My Projects',
+        'progetti-descrizione': 'A selection of works I have created with passion and dedication',
+        'progetto1-titolo': 'SpicyLand',
+        'progetto1-descrizione': 'Small internal management system for running a fast-food restaurant with cash payments. With this webapp you can: - Create products to be added to the menu; - Post news; - Manage reservations; - View statistics on various products.',
+        'progetto2-titolo': 'Assault of Ciro',
+        'progetto2-descrizione': 'Time-based FPS with progressively challenging levels. The player must eliminate all alien units on the map and reach the teleport point before the timer runs out. The challenge is to manage resources, accuracy, and movement speed: a single mistake can compromise the mission and lead to defeat.',
+        'demo': 'Demo',
+        'codice': 'Code',
+        'diritti': 'All rights reserved'
+      },
+      es: {
+        'chi-sono': 'Sobre mí',
+        'progetti': 'Proyectos',
+        'contatti': 'Contacto',
+        'i-miei-progetti': 'Mis Proyectos',
+        'progetti-descrizione': 'Una selección de trabajos que he realizado con pasión y dedicación',
+        'progetto1-titolo': 'SpicyLand',
+        'progetto1-descrizione': 'Pequeño sistema de gestión interna para administrar un restaurante de comida rápida con pago en caja. Con esta aplicación web es posible: - Crear productos para el menú; - Publicar noticias; - Realizar reservas; - Ver estadísticas de los diferentes productos.',
+        'progetto2-titolo': 'Assault of Ciro',
+        'progetto2-descrizione': 'FPS contrarreloj con niveles de dificultad progresivos. El jugador debe eliminar todas las unidades alienígenas presentes en el mapa y alcanzar el punto de teletransporte antes de que finalice el temporizador. El reto consiste en gestionar al máximo los recursos, la precisión y la velocidad de movimiento: un solo error puede comprometer la misión y llevar a la derrota.',
+        'demo': 'Demo',
+        'codice': 'Código',
+        'diritti': 'Todos los derechos reservados'
+      },
+      de: {
+        'chi-sono': 'Über mich',
+        'progetti': 'Projekte',
+        'contatti': 'Kontakt',
+        'i-miei-progetti': 'Meine Projekte',
+        'progetti-descrizione': 'Eine Auswahl der Arbeiten, die ich mit Leidenschaft und Hingabe realisiert habe',
+        'progetto1-titolo': 'SpicyLand',
+        'progetto1-descrizione': 'Kleines internes Verwaltungssystem für den Betrieb eines Fast-Food-Restaurants mit Barzahlung. Mit dieser Web-App können Sie: - Produkte für die Speisekarte erstellen; - Nachrichten veröffentlichen; - Reservierungen vornehmen; - Statistiken zu den verschiedenen Produkten anzeigen.',
+        'progetto2-titolo': 'Assault of Ciro',
+        'progetto2-descrizione': 'Zeitbasiertes FPS mit progressiv steigenden Schwierigkeitsgraden. Der Spieler muss alle außerirdischen Einheiten auf der Karte eliminieren und den Teleportpunkt erreichen, bevor der Timer abläuft. Die Herausforderung besteht darin, Ressourcen, Präzision und Bewegungsgeschwindigkeit optimal zu verwalten: ein einziger Fehler kann die Mission gefährden und zur Niederlage führen.',
+        'demo': 'Demo',
+        'codice': 'Code',
+        'diritti': 'Alle Rechte vorbehalten'
+      },
+      ja: {
+        'chi-sono': 'プロフィール',
+        'progetti': 'プロジェクト',
+        'contatti': 'お問い合わせ',
+        'i-miei-progetti': '私のプロジェクト',
+        'progetti-descrizione': '情熱と献身をもって制作した作品の選択',
+        'progetto1-titolo': 'SpicyLand',
+        'progetto1-descrizione': 'ファストフード店をレジ支払いで管理するための小さな社内管理システム。このウェブアプリでできること: - メニューに追加する商品の作成; - ニュースの投稿; - 予約の管理; - 各商品の統計を確認。',
+        'progetto2-titolo': 'Assault of Ciro',
+        'progetto2-descrizione': '時間制限付きのFPSで、難易度が段階的に上がっていきます。プレイヤーはマップ上のすべてのエイリアンユニットを排除し、タイマーが切れる前にテレポート地点に到達しなければなりません。挑戦は、リソース、精度、移動速度を最適に管理することにあります。わずかなミスが任務を台無しにし、敗北につながる可能性があります。',
+        'demo': 'デモ',
+        'codice': 'コード',
+        'diritti': '全著作権所有'
+      },
+      nl: {
+        'chi-sono': 'Over mij',
+        'progetti': 'Projecten',
+        'contatti': 'Contact',
+        'i-miei-progetti': 'Mijn Projecten',
+        'progetti-descrizione': 'Een selectie van werken die ik met passie en toewijding heb gerealiseerd',
+        'progetto1-titolo': 'SpicyLand',
+        'progetto1-descrizione': 'Klein intern beheersysteem voor het runnen van een fastfoodrestaurant met contante betalingen. Met deze webapp kun je: - Producten voor het menu aanmaken; - Nieuws plaatsen; - Reserveringen beheren; - Statistieken van verschillende producten bekijken.',
+        'progetto2-titolo': 'Assault of Ciro',
+        'progetto2-descrizione': 'Tijdgebonden FPS met progressief moeilijkere levels. De speler moet alle alien-eenheden op de kaart uitschakelen en het teleportatiepunt bereiken voordat de timer afloopt. De uitdaging is om middelen, precisie en bewegingssnelheid optimaal te beheren: één enkele fout kan de missie in gevaar brengen en tot nederlaag leiden.',
+        'demo': 'Demo',
+        'codice': 'Code',
+        'diritti': 'Alle rechten voorbehouden'
+      }
+    };
+    // Mappa delle bandiere
+    const flags = {
+      it: '🇮🇹',
+      en: '🇬🇧',
+      es: '🇪🇸',
+      de: '🇩🇪',
+      ja: '🇯🇵',
+      nl: '🇳🇱'
+    };
+
+    // GESTIONE TEMA CHIARO/SCURO
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggle.checked = true;
+    }
+    
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // GESTIONE MODALITÀ DALTONICO
+    const daltonicBtn = document.getElementById('daltonic-btn');
+    const savedDaltonic = localStorage.getItem('daltonic');
+    
+    if (savedDaltonic === 'on') {
+      document.body.classList.add('grayscale');
+      daltonicBtn.classList.add('active');
+    }
+    
+    daltonicBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      document.body.classList.toggle('grayscale');
+      daltonicBtn.classList.toggle('active');
+      const isActive = document.body.classList.contains('grayscale');
+      localStorage.setItem('daltonic', isActive ? 'on' : 'off');
+    });
+
+    // GESTIONE LINGUA CON DROPDOWN
+    const languageButton = document.getElementById('language-button');
+    const languageMenu = document.getElementById('language-menu');
+    const currentFlag = document.getElementById('current-flag');
+    const languageOptions = document.querySelectorAll('.language-option');
+    
+    const savedLang = localStorage.getItem('language') || 'it';
+    let currentLanguage = savedLang;
+    
+    function translatePage(lang) {
+      document.querySelectorAll('[class*="translate-"]').forEach(element => {
+        const classes = element.className.split(' ');
+        const translateClass = classes.find(cls => cls.startsWith('translate-'));
+        if (translateClass) {
+          const key = translateClass.replace('translate-', '');
+          if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+          }
+        }
+      });
+      
+      document.documentElement.lang = lang;
+      currentFlag.textContent = flags[lang];
+      
+      languageOptions.forEach(option => {
+        option.classList.toggle('active', option.dataset.lang === lang);
+      });
+      
+      localStorage.setItem('language', lang);
+      currentLanguage = lang;
+    }
+    
+    // Applica la lingua salvata all'avvio
+    translatePage(savedLang);
+    
+    // Toggle del menu lingua
+    languageButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      languageMenu.classList.toggle('show');
+    });
+    
+    // Gestione selezione lingua
+    languageOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedLang = option.dataset.lang;
+        translatePage(selectedLang);
+        languageMenu.classList.remove('show');
+      });
+    });
+    
+    // Chiudi menu quando si clicca fuori
+    document.addEventListener('click', (e) => {
+      if (!languageButton.contains(e.target) && !languageMenu.contains(e.target)) {
+        languageMenu.classList.remove('show');
+      }
+    });
+    
+    // Chiudi menu con ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        languageMenu.classList.remove('show');
+      }
+    });
+
+    // Google Translate API (backup nascosto)
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'it',
+        includedLanguages: 'it,en,es,de,ja,nl',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+    
+    // Carica Google Translate solo se necessario (opzionale)
+    if (window.location.search.includes('google_translate=true')) {
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      document.body.appendChild(script);
+    }
+  </script>
+
+</body>
+</html>
